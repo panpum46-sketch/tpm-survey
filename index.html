@@ -1,0 +1,975 @@
+<title>TPM One Team Survey</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: navy plant-header band over a cool-grey floor; survey = one centred work card with sticky step footer; dashboard = summary tiles → comparison → detail → actions */
+:root{
+  --bg:#EDF0F4; --surface:#FFFFFF; --surface-2:#F5F7FA; --ink:#14213A; --ink-2:#3F4D64; --muted:#677489;
+  --line:#D3DAE4; --line-2:#E5E9EF;
+  --brand:#14396B; --brand-2:#1C4A86; --brand-ink:#FFFFFF; --brand-mute:#B9C9E2;
+  --accent:#1E5DB0; --accent-ink:#FFFFFF; --accent-soft:#E2EBF7;
+  --pd:#1A4C8C; --qc:#3797D1; --en:#13857A; --ci:#6A55A8;
+  --s4:#DDE4EE;
+  --s1:#7F93AF; --s2:#A6B6CB; --s3:#C7D2E0;
+  --seq1:#D6E2F2; --seq2:#9DBBE3; --seq3:#5689CC; --seq4:#1E4F96;
+  --good:#1C7A48; --good-soft:#DFF1E6; --warn:#9A6200; --warn-soft:#FBEFD6; --bad:#B42318; --bad-soft:#FBE3DF;
+  --focus:#2F7BE0; --shadow:0 1px 2px rgba(20,33,58,.06),0 4px 16px rgba(20,33,58,.05);
+  --f-display:"Bai Jamjuree","IBM Plex Sans Thai","Noto Sans Thai","Leelawadee UI",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Thai","Noto Sans Thai","Leelawadee UI",Tahoma,system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D141F; --surface:#141E2C; --surface-2:#1A2637; --ink:#E5EBF3; --ink-2:#B7C2D2; --muted:#8B98AC;
+  --line:#2A394E; --line-2:#212E40;
+  --brand:#0F2848; --brand-2:#17375F; --brand-ink:#F2F6FB; --brand-mute:#8EA5C8;
+  --accent:#6BA5EE; --accent-ink:#0B1626; --accent-soft:#1B3152;
+  --pd:#5C94DD; --qc:#7DC5EE; --en:#3EBBA8; --ci:#B09DEB;
+  --s4:#283548;
+  --s1:#5F7491; --s2:#475A74; --s3:#34445A;
+  --seq1:#24364F; --seq2:#33557F; --seq3:#4F82C2; --seq4:#8DB8EE;
+  --good:#5DC48C; --good-soft:#15372A; --warn:#E2B04C; --warn-soft:#3A2D12; --bad:#F27D70; --bad-soft:#3E1D1A;
+  --focus:#7DB3F5; --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0D141F; --surface:#141E2C; --surface-2:#1A2637; --ink:#E5EBF3; --ink-2:#B7C2D2; --muted:#8B98AC;
+  --line:#2A394E; --line-2:#212E40;
+  --brand:#0F2848; --brand-2:#17375F; --brand-ink:#F2F6FB; --brand-mute:#8EA5C8;
+  --accent:#6BA5EE; --accent-ink:#0B1626; --accent-soft:#1B3152;
+  --pd:#5C94DD; --qc:#7DC5EE; --en:#3EBBA8; --ci:#B09DEB;
+  --s4:#283548;
+  --s1:#5F7491; --s2:#475A74; --s3:#34445A;
+  --seq1:#24364F; --seq2:#33557F; --seq3:#4F82C2; --seq4:#8DB8EE;
+  --good:#5DC48C; --good-soft:#15372A; --warn:#E2B04C; --warn-soft:#3A2D12; --bad:#F27D70; --bad-soft:#3E1D1A;
+  --focus:#7DB3F5; --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--brand)}
+h1,h2,h3{font-family:var(--f-display);line-height:1.25;text-wrap:balance;margin:0}
+p{margin:0}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.inner{max-width:760px;margin:0 auto}
+.inner.wide{max-width:1180px}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--brand);color:var(--brand-ink);border-bottom:3px solid var(--accent)}
+.top .inner{display:flex;align-items:center;gap:14px;min-height:58px;flex-wrap:wrap;padding-block:6px}
+.mark{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.mark .badge{font-family:var(--f-display);font-weight:700;font-size:15px;letter-spacing:.06em;background:var(--brand-ink);color:var(--brand);padding:3px 8px;border-radius:3px}
+.mark .name{font-family:var(--f-display);font-weight:600;font-size:17px;white-space:nowrap}
+.mark .code{font-family:var(--f-mono);font-size:11px;color:var(--brand-mute);letter-spacing:.04em;white-space:nowrap}
+.tabs{display:flex;gap:4px}
+.tabs a{color:var(--brand-mute);text-decoration:none;font-weight:500;font-size:14px;padding:6px 12px;border-radius:4px}
+.tabs a[aria-current="page"]{color:var(--brand-ink);background:var(--brand-2)}
+.tabs a:hover{color:var(--brand-ink)}
+
+main{padding-block:24px 48px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}
+
+/* welcome */
+.hero{padding:28px 24px;display:grid;gap:18px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(26px,5vw,34px)}
+.lead{color:var(--ink-2);max-width:62ch}
+.goals{display:flex;flex-wrap:wrap;gap:8px}
+.goal{font-size:14px;font-weight:500;border:1px solid var(--line);background:var(--surface-2);padding:5px 12px;border-radius:999px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fact{border-top:3px solid var(--accent);padding-top:10px}
+.fact b{display:block;font-family:var(--f-display);font-size:16px}
+.fact span{font-size:14px;color:var(--muted)}
+@media (max-width:620px){.facts{grid-template-columns:1fr}}
+.notice{font-size:14px;padding:10px 14px;border-radius:6px;background:var(--accent-soft);color:var(--ink)}
+.notice.warn{background:var(--warn-soft)}
+.notice.bad{background:var(--bad-soft)}
+.notice.good{background:var(--good-soft)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:6px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:15px}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{min-height:36px;padding:0 12px;font-size:14px;font-weight:500}
+.btn.danger{color:var(--bad);border-color:var(--bad)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+
+/* survey */
+.progress{padding:16px 20px 14px;border-bottom:1px solid var(--line-2)}
+.prog-row{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted);margin-bottom:8px}
+.prog-row b{color:var(--ink);font-weight:600}
+.bar{height:8px;background:var(--line-2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+.steps{display:flex;gap:4px;margin-top:10px}
+.steps span{flex:1;height:4px;border-radius:2px;background:var(--line-2)}
+.steps span.on{background:var(--accent)}
+.steps span.cur{background:var(--ink-2)}
+.sec-head{padding:20px 20px 4px}
+.sec-head h2{font-size:22px;margin-top:2px}
+.sec-head p{color:var(--muted);font-size:14px;margin-top:4px}
+.qs{padding:8px 20px 20px;display:grid;gap:12px}
+.q{border:1px solid var(--line-2);border-radius:8px;padding:16px;background:var(--surface);scroll-margin-top:90px}
+.q.missing{border-color:var(--bad);box-shadow:0 0 0 1px var(--bad)}
+.q-t{font-weight:600;display:flex;gap:10px;align-items:baseline}
+.q-t .qn{font-family:var(--f-mono);font-size:12px;color:var(--muted);flex:none;min-width:24px}
+.q-hint{font-size:13px;color:var(--muted);margin:2px 0 0 34px}
+.q-body{margin-top:12px}
+.req{color:var(--bad);font-weight:600}
+.q-err{display:none;color:var(--bad);font-size:13px;margin-top:8px;font-weight:500}
+.q.missing .q-err{display:block}
+
+.likert{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.lk{min-height:52px;border:1px solid var(--line);background:var(--surface-2);border-radius:6px;font-family:var(--f-mono);font-size:18px;font-weight:600;color:var(--ink-2)}
+.lk:hover{border-color:var(--accent)}
+.lk[aria-checked="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.lk-ends{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--muted);margin-top:6px}
+.lk-sel{font-size:13px;color:var(--accent);font-weight:600;min-height:20px;margin-top:2px;text-align:center}
+
+.opts{display:grid;gap:8px}
+.opts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:520px){.opts.two{grid-template-columns:1fr}}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;min-height:48px;padding:10px 14px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);font-size:15px}
+.opt:hover{border-color:var(--accent)}
+.opt .dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--muted);display:grid;place-items:center}
+.opt.multi .dot{border-radius:4px}
+.opt[aria-checked="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.opt[aria-checked="true"] .dot{border-color:var(--accent);background:var(--accent)}
+.opt[aria-checked="true"] .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent-ink)}
+.opt.multi[aria-checked="true"] .dot::after{width:10px;height:6px;border-radius:0;background:none;border:solid var(--accent-ink);border-width:0 0 2.5px 2.5px;transform:rotate(-45deg) translate(1px,-1px)}
+.opt[disabled]{opacity:.45;cursor:not-allowed}
+.depts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:700px){.depts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.dept{display:grid;gap:2px;text-align:left;padding:14px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);border-top:4px solid var(--dc)}
+.dept b{font-family:var(--f-display);font-size:24px;line-height:1.1}
+.dept span{font-size:13px;color:var(--muted)}
+.dept[aria-checked="true"]{background:var(--accent-soft);border-color:var(--accent);border-top-color:var(--dc);box-shadow:0 0 0 1px var(--accent)}
+.d-PD{--dc:var(--pd)} .d-QC{--dc:var(--qc)} .d-EN{--dc:var(--en)} .d-CI{--dc:var(--ci)}
+.counter{font-size:13px;color:var(--muted);margin-bottom:8px}
+textarea,.input{width:100%;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);padding:10px 12px;font-size:15px}
+textarea{min-height:96px;resize:vertical}
+textarea:focus,.input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.other-box{margin-top:8px}
+.foot{position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;justify-content:space-between;align-items:center;border-radius:0 0 8px 8px}
+.foot .msg{font-size:13px;color:var(--bad);font-weight:500;text-align:center;flex:1}
+.done{padding:36px 24px;display:grid;gap:14px;justify-items:start}
+.done .tick{width:56px;height:56px;border-radius:50%;background:var(--good-soft);color:var(--good);display:grid;place-items:center}
+
+/* dashboard */
+.dash{display:grid;gap:18px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.toolbar h1{font-size:26px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;padding:7px 14px;font-weight:600;font-size:14px;color:var(--ink-2);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+select.input{width:auto;padding:7px 10px;font-size:14px;background:var(--surface)}
+.status{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.status .led{width:8px;height:8px;border-radius:50%;background:var(--good)}
+.status .led.off{background:var(--warn)}
+.panel{padding:18px 20px}
+.panel h2{font-size:18px}
+.panel .sub{font-size:13px;color:var(--muted);margin-top:2px}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.tiles{grid-template-columns:1fr}}
+.tile{padding:16px 18px;display:grid;gap:6px;align-content:start}
+.tile .lbl{font-size:13px;color:var(--muted);font-weight:500}
+.tile .big{font-family:var(--f-mono);font-size:32px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile .big small{font-size:15px;color:var(--muted);font-weight:500}
+.split{display:flex;gap:12px;flex-wrap:wrap;font-size:13px}
+.split span{display:inline-flex;align-items:center;gap:5px}
+.sw{width:10px;height:10px;border-radius:2px;display:inline-block;flex:none}
+.bg-PD{background:var(--pd)} .bg-QC{background:var(--qc)} .bg-EN{background:var(--en)} .bg-CI{background:var(--ci)}
+.pill{display:inline-flex;align-items:center;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.pill.good{background:var(--good-soft);color:var(--good)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.na{background:var(--line-2);color:var(--muted)}
+.pill.info{background:var(--accent-soft);color:var(--accent)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+
+.dimrow{display:grid;grid-template-columns:minmax(150px,210px) minmax(0,1fr) 54px 74px;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line-2)}
+.dimrow:last-child{border-bottom:0}
+.dimrow .dn{font-weight:500;font-size:14px;line-height:1.35}
+.dimrow .dn small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.track{position:relative;height:12px;background:var(--line-2);border-radius:99px}
+.track .fill{position:absolute;inset:0 auto 0 0;border-radius:99px;background:var(--accent)}
+.track .t3,.track .t4{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--muted);opacity:.55}
+.dimrow .sc{font-family:var(--f-mono);font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:560px){.dimrow{grid-template-columns:minmax(0,1fr) 48px 70px}.dimrow .track{grid-column:1/-1;order:3}}
+
+.dots{position:relative;height:30px}
+.dots .rail{position:absolute;left:0;right:0;top:14px;height:2px;background:var(--line)}
+.dots .band{position:absolute;top:8px;height:14px;background:var(--accent-soft);border-radius:3px}
+.dots .d{position:absolute;top:7px;width:16px;height:16px;margin-left:-8px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
+.dots .d.dim{opacity:.35}
+.axis{position:relative;height:18px;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.axis span{position:absolute;transform:translateX(-50%)}
+.cmp{display:grid;grid-template-columns:minmax(140px,200px) minmax(0,1fr) 250px;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line-2)}
+.cmp:last-child{border-bottom:0}
+.cmp .vals{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;align-items:center}
+@media (max-width:640px){.cmp{grid-template-columns:minmax(0,1fr)}.cmp .vals{justify-content:flex-start}}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+
+.hbar{display:grid;grid-template-columns:minmax(0,1fr);gap:4px;padding:7px 0}
+.hbar .hl{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.hbar .hl .v{font-family:var(--f-mono);font-size:13px;color:var(--ink-2);white-space:nowrap}
+.hbar .ht{height:10px;background:var(--line-2);border-radius:99px;overflow:hidden}
+.hbar .ht i{display:block;height:100%;background:var(--s1);border-radius:99px}
+.hbar.hb-top .ht i{background:var(--accent)}
+.hbar .hs{font-size:12px;color:var(--muted);font-family:var(--f-mono)}
+
+.stack{display:flex;height:26px;border-radius:5px;overflow:hidden;background:var(--line-2)}
+.stack i{display:flex;align-items:center;justify-content:center;font-size:11px;font-family:var(--f-mono);font-weight:600;color:var(--ink);min-width:0;overflow:hidden;white-space:nowrap}
+.stk-row{display:grid;grid-template-columns:76px minmax(0,1fr) 40px;gap:10px;align-items:center;padding:5px 0;font-size:14px}
+.stk-row .n{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:right}
+.c-all{background:var(--accent);color:var(--accent-ink)!important}
+.c-EN{background:var(--s1)} .c-PD{background:var(--s2)} .c-QC{background:var(--s3)} .c-CI{background:var(--s4)} .c-unsure{background:var(--line)}
+.q1{background:var(--seq1)} .q2{background:var(--seq2)} .q3{background:var(--seq3);color:#fff!important} .q4{background:var(--seq4);color:var(--surface)!important}
+
+.tablewrap{overflow-x:auto}
+table.heat{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
+.heat th{font-size:12px;font-weight:600;color:var(--muted);text-align:center;padding:6px 8px;border-bottom:1px solid var(--line)}
+.heat th:first-child{text-align:left}
+.heat td{padding:6px 8px;border-bottom:1px solid var(--line-2)}
+.heat td.v{text-align:center;font-family:var(--f-mono);font-weight:600;font-variant-numeric:tabular-nums;border-left:2px solid var(--surface)}
+.heat tr.grp td{font-weight:600;font-size:13px;color:var(--accent);padding-top:12px;border-bottom:0}
+.h-good{background:var(--good-soft);color:var(--good)} .h-warn{background:var(--warn-soft);color:var(--warn)} .h-bad{background:var(--bad-soft);color:var(--bad)} .h-na{color:var(--muted)}
+.flag{font-size:11px;color:var(--bad);font-weight:600;margin-left:6px}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip .c{font-family:var(--f-mono);margin-left:4px;opacity:.8}
+.comments{display:grid;gap:8px;max-height:460px;overflow:auto;padding-right:4px}
+.cm{border-left:3px solid var(--dc);background:var(--surface-2);padding:8px 12px;border-radius:0 6px 6px 0;font-size:14px}
+.cm .meta{font-size:12px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2px}
+.ai{white-space:pre-wrap;font-size:14px;background:var(--accent-soft);border-radius:6px;padding:12px 14px;margin-bottom:12px}
+
+.acts{display:grid;gap:10px}
+.act{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:14px;border:1px solid var(--line-2);border-radius:8px;border-left:4px solid var(--pc)}
+.act.p1{--pc:var(--bad)} .act.p2{--pc:var(--warn)} .act.p3{--pc:var(--accent)}
+.act h3{font-size:16px}
+.act .why{font-size:13px;color:var(--muted);margin-top:3px}
+.act .how{font-size:14px;margin-top:6px}
+.road{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;counter-reset:r}
+@media (max-width:800px){.road{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.road{grid-template-columns:1fr}}
+.road div{border-top:3px solid var(--accent);padding-top:8px;font-size:14px}
+.road b{display:block;font-family:var(--f-display)}
+.road .w{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.crit{width:100%;border-collapse:collapse;font-size:14px}
+.crit td,.crit th{padding:7px 8px;border-bottom:1px solid var(--line-2);text-align:left;vertical-align:top}
+.crit th{font-size:12px;color:var(--muted)}
+.empty{padding:36px 24px;text-align:center;display:grid;gap:12px;justify-items:center}
+.empty h2{font-size:20px}
+.demo-bar{background:var(--warn-soft);color:var(--ink);border:1px solid var(--warn);border-radius:6px;padding:8px 14px;font-size:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+details.manage summary{cursor:pointer;font-weight:600;font-size:15px}
+details.manage[open] summary{margin-bottom:12px}
+.mg{display:grid;gap:14px}
+.mg .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.small{font-size:13px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:10px 18px;border-radius:6px;font-size:14px;z-index:30;max-width:calc(100% - 32px);box-shadow:var(--shadow)}
+.modal-bg{position:fixed;inset:0;background:rgba(10,18,30,.55);z-index:20;display:grid;place-items:center;padding:16px}
+.modal{max-width:620px;width:100%;padding:20px;display:grid;gap:12px;max-height:90vh;overflow:auto}
+.modal textarea{font-family:var(--f-mono);font-size:12px;min-height:220px}
+.foot-note{font-size:12px;color:var(--muted);text-align:center;padding-top:20px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top wrap">
+  <div class="inner wide">
+    <div class="mark"><span class="badge">TPM</span><span class="name">One Team Survey</span><span class="code">TPM-OT-01 · Rev.1</span></div>
+    <nav class="tabs" aria-label="เมนู">
+      <a href="#survey" id="tab-survey">แบบสำรวจ</a>
+      <a href="#dashboard" id="tab-dash" hidden>Dashboard</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap"><div id="app" class="inner"></div></main>
+<div id="overlay"></div>
+
+<script>
+/* ================== CONFIG ==================
+   ใช้เฉพาะเมื่อเปิดไฟล์นี้นอก claude.ai (เช่นวางบนเว็บเซิร์ฟเวอร์ของบริษัท)
+   ใส่ URL ของ Google Apps Script Web App ที่ deploy จาก Code.gs เพื่อเก็บคำตอบลง Google Sheets
+   ถ้าเว้นว่างและเปิดนอก claude.ai จะบันทึกไว้ในเครื่องนั้น (localStorage) แล้วส่งออก CSV ได้ */
+const CONFIG = { SHEETS_URL: "https://script.google.com/macros/s/AKfycbx46E1Kzv7XW-pDijO2e5N5JhptNC0LhkXGNFOrYo5YuBFYhdqUumwTBuUmLCrjPRQN/exec" };
+
+/* ================== QUESTIONNAIRE ================== */
+const LK = ["ไม่เห็นด้วยอย่างยิ่ง","ไม่เห็นด้วย","เฉย ๆ / ไม่แน่ใจ","เห็นด้วย","เห็นด้วยอย่างยิ่ง"];
+const DEPTS = ["PD","QC","EN","CI"];
+const DEPT_INFO = {PD:"Production · ฝ่ายผลิต",QC:"Quality Control · ฝ่ายควบคุมคุณภาพ",EN:"Engineering · ฝ่ายวิศวกรรม / ซ่อมบำรุง",CI:"Continuous Improvement · ฝ่ายพัฒนาปรับปรุงต่อเนื่อง"};
+const B5_CORRECT = "team";
+const SECTIONS = [
+ {id:"A",title:"ข้อมูลทั่วไป",intro:"ใช้แยกผลเป็นกลุ่มเท่านั้น ไม่มีการถามชื่อหรือรหัสพนักงาน",items:[
+  {id:"dept",type:"dept",req:true,t:"คุณอยู่แผนกใด",opts:DEPTS.map(v=>({v,l:v}))},
+  {id:"level",type:"choice",req:true,t:"ระดับงานของคุณ",cols:2,opts:[{v:"operator",l:"พนักงานปฏิบัติการ"},{v:"leader",l:"หัวหน้างาน (Leader / Supervisor)"},{v:"staff",l:"เจ้าหน้าที่ / วิศวกร"},{v:"manager",l:"ผู้จัดการขึ้นไป"}]},
+  {id:"tenure",type:"choice",req:true,t:"อายุงานในบริษัท",cols:2,opts:[{v:"lt1",l:"ต่ำกว่า 1 ปี"},{v:"y1_3",l:"1–3 ปี"},{v:"y3_5",l:"3–5 ปี"},{v:"gt5",l:"มากกว่า 5 ปี"}]}]},
+ {id:"B",title:"ความเข้าใจ TPM",intro:"ตอบตามที่รู้จริง ข้อมูลนี้ใช้วางแผนการสื่อสารและอบรม ไม่มีผลต่อการประเมินงานของคุณ",items:[
+  {id:"B1",type:"likert",req:true,t:"ฉันรู้ว่า TPM คืออะไร และทำไปเพื่ออะไร",s:"รู้ว่า TPM คืออะไร"},
+  {id:"B2",type:"likert",req:true,t:"ฉันรู้ว่าบทบาทของฉันในกิจกรรม TPM คืออะไร",s:"รู้บทบาทของตนเอง"},
+  {id:"B3",type:"likert",req:true,t:"ฉันรู้ว่าต้องสังเกตอะไร เพื่อพบความผิดปกติของเครื่องจักรแต่เนิ่น ๆ",s:"รู้วิธีสังเกตความผิดปกติ"},
+  {id:"B4",type:"likert",req:true,t:"ฉันรู้ตัวเลข Breakdown, Defect หรือ OEE ของเครื่อง/ไลน์ที่ฉันเกี่ยวข้อง",s:"รู้ตัวเลข Breakdown / Defect / OEE"},
+  {id:"B5",type:"choice",req:true,t:"ข้อใดอธิบาย TPM ได้ใกล้เคียงที่สุด",hint:"ตอบตามความเข้าใจของคุณ ไม่มีการตัดคะแนนรายบุคคล",opts:[{v:"en_job",l:"งานซ่อมบำรุงเครื่องจักรของฝ่าย EN"},{v:"5s",l:"กิจกรรม 5ส และการทำความสะอาด"},{v:"team",l:"ทุกคนร่วมกันดูแลเครื่องจักร เพื่อลดความสูญเสีย"},{v:"qc_sys",l:"ระบบตรวจสอบคุณภาพสินค้า"},{v:"unsure",l:"ไม่แน่ใจ"}]}]},
+ {id:"C",title:"ความเป็นเจ้าของเครื่องจักร",intro:"มุมมองของคุณว่าการดูแลเครื่องจักรเป็นความรับผิดชอบของใคร",items:[
+  {id:"C1",type:"choice",req:true,t:"ในความคิดของคุณ ใครควรรับผิดชอบดูแลเครื่องจักรให้พร้อมใช้งาน",opts:[{v:"EN",l:"EN เป็นหลัก"},{v:"PD",l:"PD เป็นหลัก"},{v:"QC",l:"QC เป็นหลัก"},{v:"CI",l:"CI เป็นหลัก"},{v:"all",l:"ทุกแผนกร่วมกัน"},{v:"unsure",l:"ไม่แน่ใจ"}]},
+  {id:"C2",type:"likert",req:true,t:"เมื่อเครื่องจักรมีปัญหา ฉันรู้สึกว่าเป็นเรื่องที่ฉันต้องช่วยแก้ ไม่ใช่แค่แจ้งแล้วรอ",s:"รู้สึกต้องช่วยแก้ปัญหาเครื่อง"}]},
+ {id:"D",title:"การทำงานร่วมกันในปัจจุบัน",intro:"คิดถึงการทำงานจริงในช่วง 1–3 เดือนที่ผ่านมา",items:[
+  {id:"D1",type:"likert",req:true,t:"PD, QC, EN และ CI แลกเปลี่ยนข้อมูลปัญหาเครื่องจักรและคุณภาพกันอย่างสม่ำเสมอ",s:"แลกเปลี่ยนข้อมูลสม่ำเสมอ"},
+  {id:"D2",type:"likert",req:true,t:"เมื่อเกิด Breakdown หรือ Defect เราช่วยกันหาสาเหตุ มากกว่าหาคนผิด",s:"หาสาเหตุร่วมกัน ไม่หาคนผิด"},
+  {id:"D3",type:"likert",req:true,t:"ปัญหาที่ฉันแจ้งไปยังแผนกอื่น ได้รับการแก้ไขและมีการแจ้งผลกลับ",s:"ปัญหาที่แจ้งได้รับการแก้และแจ้งกลับ"},
+  {id:"D4",type:"likert",req:true,t:"ฉันกล้าเสนอความเห็นหรือชี้ปัญหาให้แผนกอื่นได้ โดยไม่กังวล",s:"กล้าเสนอความเห็นข้ามแผนก"},
+  {id:"D5",type:"choice",req:true,t:"เดือนที่ผ่านมา คุณได้ทำงานแก้ปัญหาเครื่องจักรหรือคุณภาพร่วมกับแผนกอื่นบ่อยแค่ไหน",cols:2,opts:[{v:"none",l:"ไม่เคย"},{v:"few",l:"1–2 ครั้ง"},{v:"some",l:"3–5 ครั้ง"},{v:"weekly",l:"เกือบทุกสัปดาห์หรือมากกว่า"}]}]},
+ {id:"E",title:"ประโยชน์ที่เห็นจากงานจริง",intro:"ตอบจากสิ่งที่เห็นในพื้นที่ของคุณ ถ้ายังไม่เคยเห็นผล เลือก 3 ได้",items:[
+  {id:"E1",type:"likert",req:true,t:"จากที่เห็นในพื้นที่ของฉัน กิจกรรม TPM ช่วยลด Breakdown ได้",s:"ช่วยลด Breakdown"},
+  {id:"E2",type:"likert",req:true,t:"กิจกรรม TPM ช่วยลด Defect หรือของเสียได้",s:"ช่วยลด Defect / ของเสีย"},
+  {id:"E3",type:"likert",req:true,t:"TPM ช่วยลดงานแก้ปัญหาซ้ำ ๆ และทำให้งานของฉันง่ายขึ้น",s:"ลดงานแก้ปัญหาซ้ำ"}]},
+ {id:"F",title:"เวลา เครื่องมือ ความรู้ และการสนับสนุน",intro:"สิ่งที่คุณมีอยู่ตอนนี้ เพียงพอต่อการทำ TPM หรือไม่",items:[
+  {id:"F1",type:"likert",req:true,t:"ฉันมีเวลาในกะการทำงานสำหรับกิจกรรม TPM",s:"มีเวลาในกะ"},
+  {id:"F2",type:"likert",req:true,t:"เครื่องมือ อุปกรณ์ และแบบฟอร์มที่ใช้ทำ TPM มีเพียงพอ",s:"เครื่องมือ / แบบฟอร์มพอ"},
+  {id:"F3",type:"likert",req:true,t:"ฉันได้รับการฝึกอบรมเพียงพอที่จะทำ TPM ในส่วนของฉัน",s:"ได้รับการอบรมพอ"},
+  {id:"F4",type:"likert",req:true,t:"หัวหน้าและผู้บริหารสนับสนุนและติดตามกิจกรรม TPM อย่างจริงจัง",s:"หัวหน้า / ผู้บริหารสนับสนุน"}]},
+ {id:"G",title:"อุปสรรคในการทำ TPM ร่วมกัน",intro:"เลือกเรื่องที่เป็นปัญหามากที่สุดในพื้นที่ของคุณ",items:[
+  {id:"G1",type:"multi",req:true,max:3,t:"อะไรทำให้ PD, QC, EN และ CI ทำ TPM ร่วมกันได้ยาก",hint:"เลือกได้ไม่เกิน 3 ข้อ",opts:[
+   {v:"time",l:"ไม่มีเวลา / งานผลิตเร่ง"},{v:"skill",l:"ไม่รู้ขั้นตอน หรือไม่ได้รับการฝึก"},{v:"role",l:"ไม่ชัดเจนว่าใครรับผิดชอบอะไร"},{v:"comm",l:"การสื่อสารระหว่างแผนกไม่ดี"},{v:"followup",l:"ปัญหาที่แจ้งไม่ได้รับการแก้ไข หรือแก้ช้า"},{v:"resource",l:"ขาดเครื่องมือ อะไหล่ หรืองบประมาณ"},{v:"kpi",l:"เป้าหมาย / KPI ของแต่ละแผนกขัดกัน"},{v:"recog",l:"ไม่เห็นผลลัพธ์ หรือไม่มีการชื่นชม"},{v:"leader",l:"หัวหน้าไม่ให้ความสำคัญ"},{v:"paper",l:"เอกสาร / แบบฟอร์มยุ่งยาก"},{v:"other",l:"อื่น ๆ (ระบุ)"}]}]},
+ {id:"H",title:"ความพร้อมทำ TPM ร่วมกัน",intro:"ความตั้งใจของคุณ หากมีการเริ่มกิจกรรม TPM One Team",items:[
+  {id:"H1",type:"likert",req:true,t:"ฉันพร้อมเข้าร่วมกิจกรรม TPM ร่วมกับแผนกอื่น",s:"พร้อมร่วมกิจกรรมข้ามแผนก"},
+  {id:"H2",type:"likert",req:true,t:"ฉันยินดีเรียนรู้งานพื้นฐานของแผนกอื่น เช่น PD เรียนการตรวจเช็คเครื่อง หรือ EN เรียนจุดตรวจคุณภาพ",s:"ยินดีเรียนรู้งานแผนกอื่น"},
+  {id:"H3",type:"multi",req:true,max:2,t:"อยากให้เริ่มกิจกรรมใดก่อน",hint:"เลือกได้ไม่เกิน 2 ข้อ",opts:[
+   {v:"pilot",l:"ทีมข้ามแผนกดูแลเครื่องจักรต้นแบบ"},{v:"huddle",l:"ประชุมหน้างานสั้น ๆ ร่วมกันทุกแผนก"},{v:"training",l:"อบรม TPM พื้นฐาน"},{v:"tag",l:"ระบบแจ้งปัญหา (Tag) ที่ติดตามสถานะได้"},{v:"opl",l:"One Point Lesson สอนงานข้ามแผนก"},{v:"kpi",l:"ตัวชี้วัดร่วม (OEE) และการชื่นชมทีม"}]}]},
+ {id:"I",title:"ข้อเสนอแนะ",intro:"ไม่บังคับตอบ เขียนสั้น ๆ ได้ ไม่ต้องระบุชื่อคนหรือเครื่องที่ทำให้รู้ว่าเป็นใคร",items:[
+  {id:"I1",type:"text",req:false,t:"อะไรคือปัญหาที่ทำให้ PD, QC, EN และ CI ทำงานร่วมกันได้ยากที่สุด"},
+  {id:"I2",type:"text",req:false,t:"ข้อเสนอแนะ เพื่อให้ TPM One Team ได้ผลจริง"}]}
+];
+const ITEMS = SECTIONS.flatMap(s=>s.items);
+const ITEM = Object.fromEntries(ITEMS.map(i=>[i.id,i]));
+const LIKERT_IDS = ITEMS.filter(i=>i.type==="likert").map(i=>i.id);
+const REQ_IDS = ITEMS.filter(i=>i.req).map(i=>i.id);
+const DIMS = [
+ {k:"knowledge",n:"ความเข้าใจ TPM",items:["B1","B2","B3","B4"]},
+ {k:"ownership",n:"ความเป็นเจ้าของ",items:["C2"]},
+ {k:"collab",n:"ความร่วมมือระหว่างแผนก",items:["D1","D2","D3","D4"]},
+ {k:"value",n:"การเห็นประโยชน์",items:["E1","E2","E3"]},
+ {k:"enablers",n:"ความพร้อมด้านทรัพยากร",items:["F1","F2","F3","F4"]},
+ {k:"readiness",n:"ความพร้อมร่วมมือ",items:["H1","H2"]}
+];
+const optLabel = (qid,v)=> (ITEM[qid].opts.find(o=>o.v===v)||{}).l || v || "";
+
+/* ================== HELPERS ================== */
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rid = ()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const sleep = ms=>new Promise(r=>setTimeout(r,ms));
+const num = x=>{const n=Number(x);return n>=1&&n<=5?n:null};
+const mean = a=>{const v=a.filter(x=>typeof x==="number"&&!isNaN(x));return v.length?v.reduce((s,x)=>s+x,0)/v.length:null};
+const f2 = x=>x==null?"–":x.toFixed(2);
+const pct = (a,b)=>b?Math.round(a/b*100):0;
+function level(s){ if(s==null) return {c:"na",t:"ไม่มีข้อมูล"}; if(s>=4) return {c:"good",t:"สูง"}; if(s>=3) return {c:"warn",t:"ปานกลาง"}; return {c:"bad",t:"ต่ำ"}; }
+function toast(msg){ const t=document.createElement("div"); t.className="toast"; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),3200); }
+function arr(v){ if(Array.isArray(v)) return v; if(v==null||v==="") return []; return String(v).split("|").map(s=>s.trim()).filter(Boolean); }
+function normalize(r){
+  const o={...r};
+  LIKERT_IDS.forEach(id=>o[id]=num(o[id]));
+  o.G1=arr(o.G1); o.H3=arr(o.H3);
+  ["dept","level","tenure","B5","C1","D5","G1_other","I1","I2","submittedAt","id","mode"].forEach(k=>{ if(o[k]==null) o[k]=""; else o[k]=String(o[k]); });
+  o.dept=o.dept.toUpperCase();
+  return o;
+}
+
+/* ================== STORAGE ================== */
+const LOCAL_KEY="tpm-oneteam-responses-v1";
+function localRead(){ try{ return JSON.parse(localStorage.getItem(LOCAL_KEY)||"[]"); }catch(e){ return []; } }
+function localWrite(a){ try{ localStorage.setItem(LOCAL_KEY,JSON.stringify(a)); return true; }catch(e){ return false; } }
+const segSafe = s=>String(s).replace(/[^A-Za-z0-9_\-.~:@+]/g,"_").slice(0,120)||rid();
+
+const Store = {
+  mode:"pending", db:null, user:null, uid:null, isAdmin:false, existing:null, unsub:null, adminKey:null,
+  async init(){
+    const inViewer = !!(window.claude && typeof window.claude.use==="function");
+    this.inViewer = inViewer;
+    if(!inViewer && CONFIG.SHEETS_URL){ this.mode="remote"; this.isAdmin=true; try{ this.adminKey=sessionStorage.getItem("tpm-admin-key"); }catch(e){} return; }
+    if(!inViewer){ this.mode="local"; this.isAdmin=true; return; }
+    try{
+      const [db,user] = await Promise.all([claude.use("db"),claude.use("user")]);
+      this.user=user;
+      if(!db){ this.mode="local"; this.isAdmin=true; return; }
+      this.db=db; this.mode="cloud";
+      this.isAdmin = user ? !!(await user.canEdit()) : false;
+      if(!this.isAdmin && user){
+        this.uid = await user.id();
+        if(this.uid){ try{ const s=await db.doc("responses/"+segSafe(this.uid)).get(); if(s.exists) this.existing=s.data(); }catch(e){} }
+      }
+    }catch(e){ this.mode="local"; this.isAdmin=true; }
+  },
+  async remote(body){
+    const r = await fetch(CONFIG.SHEETS_URL,{method:"POST",body:JSON.stringify(body)});
+    const j = await r.json(); if(!j.ok) throw {code:j.error||"remote_error"}; return j;
+  },
+  async submit(resp){
+    if(this.mode==="cloud"){
+      const id = this.isAdmin ? "k-"+rid() : (this.uid?segSafe(this.uid):null);
+      if(id){
+        resp.id=id; resp.mode=this.isAdmin?"kiosk":"self";
+        for(let i=0;i<2;i++){
+          try{ await this.db.doc("responses/"+id).set(resp); return {where:"cloud"}; }
+          catch(e){ if(e&&e.code==="unavailable"&&i===0){ await sleep(600+Math.random()*900); continue; } this.lastErr=e&&e.code; break; }
+        }
+      }
+      resp.id="l-"+rid(); resp.mode="local"; const a=localRead(); a.push(resp); localWrite(a);
+      return {where:"backup",reason:this.lastErr||"noid"};
+    }
+    if(this.mode==="remote"){
+      resp.id="s-"+rid(); resp.mode="sheets";
+      try{ await this.remote({action:"submit",response:resp}); return {where:"sheets"}; }
+      catch(e){ resp.mode="local"; const a=localRead(); a.push(resp); localWrite(a); return {where:"backup",reason:"network"}; }
+    }
+    resp.id="l-"+rid(); resp.mode="local"; const a=localRead(); a.push(resp);
+    return localWrite(a)?{where:"local"}:{where:"fail"};
+  },
+  watch(onData,onStatus){
+    if(this.mode==="cloud"){
+      if(this.unsub) return;
+      onStatus("loading");
+      let t=setTimeout(()=>onStatus("slow"),10000);
+      this.unsub = this.db.collection("responses").onSnapshot(snap=>{
+        if(!snap.metadata.fromCache){ clearTimeout(t); onStatus("live"); }
+        onData(snap.docs.map(d=>normalize({...d.data(),id:d.id})));
+      },err=>{ clearTimeout(t); onStatus("error",err&&err.code); this.unsub=null; });
+    } else if(this.mode==="remote"){
+      this.refreshRemote(onData,onStatus);
+    } else { onStatus("local"); onData(localRead().map(normalize)); }
+  },
+  async refreshRemote(onData,onStatus){
+    if(!this.adminKey){ onStatus("needkey"); onData([]); return; }
+    onStatus("loading");
+    try{
+      const r=await fetch(CONFIG.SHEETS_URL+"?action=list&key="+encodeURIComponent(this.adminKey));
+      const j=await r.json();
+      if(!j.ok){ if(j.error==="bad_key"){ this.adminKey=null; try{sessionStorage.removeItem("tpm-admin-key");}catch(e){} onStatus("badkey"); onData([]); return; } throw 0; }
+      onStatus("sheets"); onData(j.rows.map(normalize));
+    }catch(e){ onStatus("error","network"); }
+  },
+  async importRows(rows,progress){
+    let ok=0;
+    if(this.mode==="cloud"){
+      for(const r of rows){
+        const id = /^[klis]-/.test(r.id||"") ? segSafe(r.id) : "i-"+(r.id?segSafe(r.id):rid());
+        const body={...r,id}; delete body._t;
+        try{ await this.db.doc("responses/"+id).set(body); ok++; }catch(e){ if(e&&e.code==="quota_exceeded") throw e; }
+        progress&&progress(ok,rows.length);
+      }
+      return ok;
+    }
+    if(this.mode==="remote"){ const j=await this.remote({action:"import",key:this.adminKey,rows}); return j.added||0; }
+    const a=localRead(); const ids=new Set(a.map(x=>x.id));
+    rows.forEach(r=>{ const id=r.id||("i-"+rid()); if(!ids.has(id)){ a.push({...r,id}); ids.add(id); ok++; } });
+    localWrite(a); return ok;
+  },
+  async deleteAll(rows,progress){
+    if(this.mode==="cloud"){ let i=0; for(const r of rows){ try{ await this.db.doc("responses/"+r.id).delete(); }catch(e){} progress&&progress(++i,rows.length); } return; }
+    if(this.mode==="remote"){ await this.remote({action:"clear",key:this.adminKey}); return; }
+    localWrite([]);
+  }
+};
+
+/* ================== SURVEY ================== */
+const S = {step:0, ans:{}, missing:new Set(), result:null, busy:false};
+const NSEC = SECTIONS.length;
+
+function answered(it,a=S.ans){
+  const v=a[it.id];
+  if(it.type==="likert") return num(v)!=null;
+  if(it.type==="multi"){ const x=arr(v); if(!x.length) return false; if(x.includes("other")&&!String(a[it.id+"_other"]||"").trim()) return false; return true; }
+  if(it.type==="text") return true;
+  return !!v;
+}
+function qHTML(it,idx){
+  const v=S.ans[it.id];
+  let body="";
+  if(it.type==="likert"){
+    body=`<div class="likert" role="radiogroup" aria-labelledby="t-${it.id}">${[1,2,3,4,5].map(n=>`<button type="button" class="lk" role="radio" aria-checked="${v===n}" aria-label="${n} ${LK[n-1]}" data-q="${it.id}" data-v="${n}">${n}</button>`).join("")}</div>
+    <div class="lk-ends"><span>1 = ${LK[0]}</span><span>5 = ${LK[4]}</span></div>
+    <div class="lk-sel">${v?esc(LK[v-1]):""}</div>`;
+  } else if(it.type==="dept"){
+    body=`<div class="depts" role="radiogroup" aria-labelledby="t-${it.id}">${it.opts.map(o=>`<button type="button" class="dept d-${o.v}" role="radio" aria-checked="${v===o.v}" data-q="${it.id}" data-v="${o.v}"><b>${o.v}</b><span>${esc(DEPT_INFO[o.v])}</span></button>`).join("")}</div>`;
+  } else if(it.type==="choice"){
+    body=`<div class="opts ${it.cols===2?"two":""}" role="radiogroup" aria-labelledby="t-${it.id}">${it.opts.map(o=>`<button type="button" class="opt" role="radio" aria-checked="${v===o.v}" data-q="${it.id}" data-v="${o.v}"><span class="dot"></span><span>${esc(o.l)}</span></button>`).join("")}</div>`;
+  } else if(it.type==="multi"){
+    const sel=arr(v); const full=sel.length>=it.max;
+    body=`<div class="counter">เลือกแล้ว ${sel.length} / ${it.max}</div><div class="opts ${it.opts.length>6?"two":""}" role="group" aria-labelledby="t-${it.id}">${it.opts.map(o=>{const on=sel.includes(o.v);return `<button type="button" class="opt multi" role="checkbox" aria-checked="${on}" ${!on&&full?"disabled":""} data-m="${it.id}" data-v="${o.v}"><span class="dot"></span><span>${esc(o.l)}</span></button>`}).join("")}</div>
+    ${sel.includes("other")?`<div class="other-box"><input class="input" id="f-${it.id}_other" data-text="${it.id}_other" maxlength="200" placeholder="ระบุอุปสรรคอื่น ๆ" value="${esc(S.ans[it.id+"_other"]||"")}"></div>`:""}`;
+  } else if(it.type==="text"){
+    body=`<textarea id="f-${it.id}" data-text="${it.id}" maxlength="500" placeholder="พิมพ์คำตอบของคุณ (ไม่บังคับ)">${esc(v||"")}</textarea>`;
+  }
+  const errMsg = it.type==="multi" && arr(v).includes("other") && !String(S.ans[it.id+"_other"]||"").trim() ? "กรุณาระบุอุปสรรคอื่น ๆ" : "กรุณาตอบข้อนี้";
+  return `<div class="q ${S.missing.has(it.id)?"missing":""}" id="q-${it.id}">
+    <div class="q-t" id="t-${it.id}"><span class="qn">${idx}</span><span>${esc(it.t)} ${it.req?'<span class="req" aria-label="จำเป็น">*</span>':""}</span></div>
+    ${it.hint?`<div class="q-hint">${esc(it.hint)}</div>`:""}
+    <div class="q-body">${body}</div><div class="q-err">${errMsg}</div></div>`;
+}
+function qNumber(id){ return ITEMS.findIndex(i=>i.id===id)+1; }
+function progressHTML(){
+  const done=REQ_IDS.filter(id=>answered(ITEM[id])).length;
+  const p=Math.round(done/REQ_IDS.length*100);
+  return `<div class="progress"><div class="prog-row"><span>หมวด <b>${S.step}</b> จาก ${NSEC}</span><span>ตอบแล้ว <b class="num">${p}%</b></span></div>
+  <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${p}" aria-label="ความคืบหน้า"><i style="width:${p}%"></i></div>
+  <div class="steps" aria-hidden="true">${SECTIONS.map((s,i)=>`<span class="${i+1<S.step?"on":i+1===S.step?"cur":""}"></span>`).join("")}</div></div>`;
+}
+function storeLine(){
+  if(Store.mode==="cloud" && Store.isAdmin) return `<div class="notice">โหมดเครื่องส่วนกลาง: คุณเป็นผู้ดูแลแบบสำรวจนี้ เครื่องนี้ใช้ให้พนักงานหลายคนผลัดกันตอบได้ คำตอบแต่ละชุดถูกบันทึกเป็นรายการใหม่ในระบบกลาง</div>`;
+  if(Store.mode==="cloud" && Store.existing) return `<div class="notice warn">คุณเคยส่งแบบสำรวจนี้แล้ว หากส่งอีกครั้ง คำตอบใหม่จะแทนที่คำตอบเดิม (1 คน = 1 ชุดคำตอบ)</div>`;
+  if(Store.mode==="local") return `<div class="notice warn">โหมดออฟไลน์: คำตอบจะถูกเก็บไว้ในเครื่องนี้เท่านั้น ผู้ดูแลต้องส่งออก CSV แล้วนำเข้าใน Dashboard กลาง</div>`;
+  return "";
+}
+function renderSurvey(){
+  const app=$("#app"); app.className="inner";
+  if(S.step===0){
+    app.innerHTML=`<section class="card hero" aria-labelledby="h-welcome">
+      <div class="eyebrow">แบบสำรวจพนักงาน PD · QC · EN · CI</div>
+      <h1 id="h-welcome">TPM One Team: เราดูแลเครื่องจักรร่วมกันได้ดีแค่ไหน</h1>
+      <p class="lead">แบบสำรวจนี้ใช้ทำความเข้าใจมุมมอง ปัญหา และความพร้อมของทั้ง 4 แผนก ในการทำ TPM ร่วมกัน ผลรวมจะนำไปออกแบบกิจกรรมที่ช่วยให้ทำงานง่ายขึ้นจริง ไม่ได้ใช้ประเมินผลงานของใคร</p>
+      <div class="goals" aria-label="เป้าหมายร่วม"><span class="goal">ลด Breakdown</span><span class="goal">ลด Defect</span><span class="goal">เพิ่ม OEE</span><span class="goal">เป็นเจ้าของเครื่องจักรร่วมกัน</span></div>
+      <div class="facts">
+        <div class="fact"><b>ไม่ระบุตัวตน</b><span>ไม่ถามชื่อหรือรหัสพนักงาน รายงานผลเป็นภาพรวมเท่านั้น</span></div>
+        <div class="fact"><b>ใช้เวลา 4–5 นาที</b><span>28 ข้อ ส่วนใหญ่กดเลือกคำตอบ ปลายเปิด 2 ข้อไม่บังคับ</span></div>
+        <div class="fact"><b>ตอบตามจริง</b><span>ไม่มีคำตอบถูกหรือผิด ความเห็นจริงช่วยแก้ปัญหาได้ตรงจุด</span></div>
+      </div>
+      ${Store.mode==="pending"?`<div class="notice">กำลังเชื่อมต่อระบบบันทึกข้อมูล…</div>`:storeLine()}
+      <div><button class="btn primary" data-act="start" ${Store.mode==="pending"?"disabled":""}>เริ่มทำแบบสำรวจ</button></div>
+    </section>`;
+    return;
+  }
+  if(S.step==="done"){
+    const r=S.result||{};
+    const where = r.where==="cloud"?"บันทึกคำตอบของคุณลงระบบกลางเรียบร้อยแล้ว"
+      : r.where==="sheets"?"บันทึกคำตอบของคุณลง Google Sheets ของโครงการเรียบร้อยแล้ว"
+      : r.where==="local"?"บันทึกคำตอบไว้ในเครื่องนี้แล้ว ผู้ดูแลจะรวบรวมผ่านการส่งออกไฟล์"
+      : r.where==="backup"?"ระบบกลางรับคำตอบไม่ได้ในขณะนี้ คำตอบจึงถูกเก็บสำรองไว้ในเครื่องนี้":"บันทึกไม่สำเร็จ";
+    const multi = Store.isAdmin;
+    app.innerHTML=`<section class="card done" aria-live="polite">
+      <div class="tick"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h1 style="font-size:26px">ขอบคุณที่ร่วมตอบแบบสำรวจ</h1>
+      <p class="lead">${esc(where)}</p>
+      ${r.where==="backup"?`<div class="notice bad">${Store.mode==="cloud"&&!Store.isAdmin?"บัญชีของคุณยังไม่มีสิทธิ์บันทึกข้อมูลในแบบสำรวจนี้ กรุณาแจ้งผู้ดูแลโครงการให้เพิ่มสิทธิ์ หรือตอบผ่านเครื่องส่วนกลางที่หน้างาน":"ผู้ดูแลสามารถอัปโหลดข้อมูลที่ค้างอยู่ได้จากเมนูจัดการข้อมูลใน Dashboard"}</div>`:""}
+      <p class="small">ผลสรุปภาพรวมจะนำไปใช้กำหนดกิจกรรม TPM One Team ร่วมกันของ PD, QC, EN และ CI</p>
+      ${multi?`<button class="btn primary" data-act="restart">เริ่มแบบสำรวจใหม่สำหรับคนถัดไป</button>`:""}
+    </section>`;
+    return;
+  }
+  const sec=SECTIONS[S.step-1];
+  const last=S.step===NSEC;
+  app.innerHTML=`<section class="card" aria-labelledby="h-sec">
+    ${progressHTML()}
+    <div class="sec-head"><div class="eyebrow">หมวด ${sec.id}</div><h2 id="h-sec">${esc(sec.title)}</h2><p>${esc(sec.intro)}</p></div>
+    <div class="qs">${sec.items.map(it=>qHTML(it,qNumber(it.id))).join("")}</div>
+    <div class="foot"><button class="btn" data-act="back">ย้อนกลับ</button><span class="msg" id="foot-msg" aria-live="polite"></span>
+    <button class="btn primary" data-act="${last?"submit":"next"}" ${S.busy?"disabled":""}>${last?(S.busy?"กำลังส่ง…":"ส่งแบบสำรวจ"):"ถัดไป"}</button></div>
+  </section>`;
+}
+function refreshQ(id){
+  const el=document.getElementById("q-"+id); if(!el) return;
+  el.outerHTML=qHTML(ITEM[id],qNumber(id));
+  const p=document.querySelector(".progress"); if(p) p.outerHTML=progressHTML();
+}
+function validateSection(sec){
+  const miss=sec.items.filter(it=>it.req&&!answered(it)).map(it=>it.id);
+  miss.forEach(id=>S.missing.add(id));
+  return miss;
+}
+function goStep(n){ S.step=n; renderSurvey(); window.scrollTo(0,0); }
+async function submitSurvey(){
+  for(let i=0;i<NSEC;i++){
+    const miss=validateSection(SECTIONS[i]);
+    if(miss.length){ goStep(i+1); setTimeout(()=>{ const el=document.getElementById("q-"+miss[0]); el&&el.scrollIntoView({block:"center"}); const m=$("#foot-msg"); if(m) m.textContent=`ยังไม่ได้ตอบ ${miss.length} ข้อในหมวดนี้`; },30); return; }
+  }
+  S.busy=true; renderSurvey();
+  const a=S.ans;
+  const resp={v:1,submittedAt:new Date().toISOString(),dept:a.dept,level:a.level,tenure:a.tenure};
+  ITEMS.forEach(it=>{ if(it.type==="likert") resp[it.id]=a[it.id]; else if(it.type==="multi") resp[it.id]=arr(a[it.id]); else if(["choice"].includes(it.type)) resp[it.id]=a[it.id]; else if(it.type==="text") resp[it.id]=String(a[it.id]||"").trim().slice(0,500); });
+  resp.G1_other = arr(a.G1).includes("other") ? String(a.G1_other||"").trim().slice(0,200) : "";
+  S.result=await Store.submit(resp);
+  if(S.result.where==="cloud"&&!Store.isAdmin) Store.existing=resp;
+  S.busy=false; S.ans={}; S.missing.clear();
+  goStep("done");
+}
+
+/* ================== SCORING ================== */
+function respScores(r){ const o={}; DIMS.forEach(d=>o[d.k]=mean(d.items.map(i=>num(r[i])))); o.index=mean(DIMS.map(d=>o[d.k])); return o; }
+function countOpts(rows,field){ const c={}; ITEM[field].opts.forEach(o=>c[o.v]=0); rows.forEach(r=>arr(r[field]).forEach(x=>{ if(x in c) c[x]++; })); return c; }
+function stats(rows){
+  const n=rows.length, rs=rows.map(respScores), dims={};
+  DIMS.forEach(d=>dims[d.k]=mean(rs.map(s=>s[d.k])));
+  const items={}; LIKERT_IDS.forEach(id=>items[id]=mean(rows.map(r=>num(r[id]))));
+  return {n,dims,items,index:mean(rs.map(s=>s.index)),
+    b5:rows.filter(r=>r.B5===B5_CORRECT).length, c1:countOpts(rows,"C1"), d5:countOpts(rows,"D5"),
+    g1:countOpts(rows,"G1"), h3:countOpts(rows,"H3")};
+}
+
+/* ================== DASHBOARD ================== */
+const D = {rows:[], status:"", statusCode:"", dept:"all", lvl:"all", demo:false, demoRows:null, theme:"all", ai:{}, aiBusy:false, sampleOk:undefined};
+const THEMES = [
+ {k:"time",n:"เวลา / กำลังคน",w:["เวลา","เร่ง","ยอด","คนไม่พอ","กำลังคน","งานเยอะ","โอที","OT","ไม่ทัน"]},
+ {k:"comm",n:"การสื่อสาร",w:["สื่อสาร","คุย","ประชุม","แจ้ง","ข้อมูล","ประสาน","บอก"]},
+ {k:"skill",n:"ความรู้ / อบรม",w:["อบรม","ความรู้","สอน","ฝึก","เข้าใจ","training","คู่มือ"]},
+ {k:"resource",n:"เครื่องมือ / อะไหล่",w:["เครื่องมือ","อะไหล่","อุปกรณ์","งบ","spare","ของไม่พอ"]},
+ {k:"role",n:"บทบาท / ความรับผิดชอบ",w:["หน้าที่","รับผิดชอบ","โยน","โทษ","ของใคร","บทบาท","เกี่ยง"]},
+ {k:"leader",n:"หัวหน้า / ผู้บริหาร",w:["หัวหน้า","ผู้บริหาร","ผู้จัดการ","นาย","สนับสนุน","ผู้ใหญ่"]},
+ {k:"follow",n:"การติดตาม / ผลลัพธ์",w:["ติดตาม","ช้า","ไม่แก้","ผลลัพธ์","ชื่นชม","รางวัล","KPI","แก้ไม่"]}
+];
+function tagComment(t){ const s=t.toLowerCase(); const ks=THEMES.filter(th=>th.w.some(w=>s.includes(w.toLowerCase()))).map(th=>th.k); return ks.length?ks:["other"]; }
+const ACTIONS = {
+  time:["จัดเวลา TPM ไว้ในกะ","กำหนดเวลา AM 10–15 นาทีต่อกะในแผนการผลิต และให้หัวหน้าไลน์ปกป้องช่วงเวลานี้","PD + Planning"],
+  skill:["อบรม TPM หน้างาน + One Point Lesson","อบรมสั้น 30–45 นาทีที่เครื่องจริง แล้วให้แต่ละแผนกทำ OPL สอนกันเองเดือนละ 1 เรื่อง","CI / TPM Office + EN"],
+  role:["ทำตารางบทบาทต่อเครื่อง (RACI)","กำหนดให้ชัด: PD ทำความสะอาด/ตรวจเช็ค/หล่อลื่น, EN ทำ PM และแก้ไข, QC ชี้จุดวิกฤตคุณภาพ, CI นำการวิเคราะห์และติดตามผล แล้วติดไว้ที่เครื่อง","ผู้จัดการ PD · QC · EN · CI"],
+  comm:["ประชุมหน้างานร่วมทุกแผนก","Huddle 10 นาที ที่บอร์ดหน้าเครื่อง ทบทวน Breakdown, Defect และ Tag ที่ค้าง","หัวหน้างานทุกแผนก"],
+  followup:["ระบบ Tag ที่มีเจ้าของและวันปิดงาน","ทุก Tag ต้องมีผู้รับผิดชอบ วันกำหนดแก้ และแจ้งผลกลับผู้แจ้ง ติดตามอัตราปิด Tag ทุกสัปดาห์","EN + PD"],
+  resource:["จัดชุดเครื่องมือ AM ประจำไลน์","สำรวจเครื่องมือ อะไหล่สำรองที่ขาดบ่อย และตั้งงบเริ่มต้นสำหรับเครื่องต้นแบบ","EN + จัดซื้อ"],
+  kpi:["ตั้ง KPI ร่วมทุกแผนก","ใช้ OEE, Breakdown และ Defect ของเครื่องต้นแบบเป็นเป้าหมายร่วม แทนการวัดแยกแผนก","ผู้บริหารโรงงาน"],
+  recog:["แสดงผลก่อน-หลังและชื่นชมทีม","ติดกราฟ Breakdown/OEE ก่อน-หลังที่บอร์ด และชื่นชมทีม One Team ทุกเดือน","TPM Office"],
+  leader:["ผู้บริหารเดินตรวจหน้างาน (Gemba)","ผู้จัดการทุกแผนกเดินตรวจกิจกรรม TPM ด้วยกันสัปดาห์ละครั้ง และช่วยปลดล็อกปัญหา","ผู้จัดการ PD · QC · EN · CI"],
+  paper:["ลดเอกสาร ใช้ Checklist ภาพหน้าเดียว","ปรับแบบฟอร์มให้เหลือ 1 หน้า ใช้รูปแทนข้อความ และติดไว้ที่จุดตรวจ","TPM Office"]
+};
+const DIM_ACT = {
+  knowledge:["ยกระดับความเข้าใจ TPM","สื่อสารว่า TPM คืออะไร ช่วยงานแต่ละคนอย่างไร พร้อมอบรมพื้นฐานและตัวอย่างจริงในโรงงาน","TPM Office"],
+  ownership:["สร้างความเป็นเจ้าของเครื่องจักร","ตั้งทีม One Team ประจำเครื่องต้นแบบ มีชื่อสมาชิกทุกแผนกติดที่เครื่อง","ผู้จัดการ PD · EN + CI"],
+  collab:["เพิ่มการทำงานร่วมกันระหว่างแผนก","เริ่มทีมข้ามแผนกแก้ปัญหาเครื่องต้นแบบ 1 เครื่อง ใช้การวิเคราะห์ Why-Why ร่วมกัน โดย CI เป็นผู้นำวง","หัวหน้างานทุกแผนก"],
+  value:["ทำ Quick win ให้เห็นผลจริง","เลือกปัญหาที่เกิดซ้ำ 1–2 เรื่อง แก้ให้เห็นผลใน 4–6 สัปดาห์ แล้วโชว์ตัวเลขก่อน-หลัง","EN + PD"],
+  enablers:["ปลดล็อกทรัพยากร","จัดเวลาในกะ เครื่องมือ และการอบรมให้พร้อม ก่อนขยายกิจกรรม","ผู้บริหารโรงงาน"],
+  readiness:["สร้างแรงจูงใจก่อนเริ่ม","ฟังเสียงพนักงานจากคำถามปลายเปิด และเริ่มจากกิจกรรมที่พนักงานเลือกเอง","TPM Office"]
+};
+
+function demoRows(){
+  let seed=7; const rnd=()=>{seed=(seed*16807)%2147483647; return (seed-1)/2147483646;};
+  const pick=(a,w)=>{ let x=rnd()*w.reduce((s,v)=>s+v,0); for(let i=0;i<a.length;i++){ x-=w[i]; if(x<=0) return a[i]; } return a[a.length-1]; };
+  const lk=b=>Math.max(1,Math.min(5,Math.round(b+(rnd()-.5)*2.2)));
+  const bias={PD:{B:3.0,C:3.3,D:2.9,E:3.4,F:2.5,H:3.8},QC:{B:3.4,C:2.9,D:2.7,E:3.5,F:3.1,H:3.6},EN:{B:4.1,C:3.9,D:3.0,E:3.9,F:3.0,H:3.4},CI:{B:4.3,C:3.6,D:3.3,E:4.1,F:3.4,H:4.2}};
+  const cm=["งานผลิตเร่งมาก ไม่มีเวลาทำความสะอาดเครื่องตามแผน","แจ้งซ่อมไปแล้วไม่รู้ว่าแก้เสร็จหรือยัง ไม่มีใครแจ้งกลับ","เวลามี Defect มักโทษกันว่าเป็นของแผนกไหน","อยากให้มีการอบรมการตรวจเช็คเครื่องเบื้องต้นให้ฝ่ายผลิต","อะไหล่สำรองไม่พอ ต้องรอนาน","ควรประชุมสั้น ๆ ร่วมกันทุกเช้าที่หน้าเครื่อง","หัวหน้าควรให้ความสำคัญและติดตามจริงจัง ไม่ใช่ทำตอน Audit","ไม่ชัดเจนว่า PD ต้องทำอะไร EN ต้องทำอะไร","อยากเห็นตัวเลข OEE ของไลน์ตัวเองทุกวัน","แบบฟอร์มเยอะเกินไป ควรทำให้ง่ายขึ้น","ควรมีรางวัลชื่นชมทีมที่ลด Breakdown ได้","ขอคู่มือแบบรูปภาพติดที่เครื่อง"];
+  const out=[];
+  for(let i=0;i<72;i++){
+    const dept=pick(DEPTS,[34,18,20,8]); const b=bias[dept]; const r={id:"demo-"+i,mode:"demo",submittedAt:new Date(Date.now()-rnd()*12*864e5).toISOString(),dept,
+      level:pick(["operator","leader","staff","manager"],dept==="EN"?[8,4,6,1]:dept==="CI"?[1,2,6,1]:[14,4,2,1]),tenure:pick(["lt1","y1_3","y3_5","gt5"],[2,4,3,4])};
+    ["B1","B2","B3","B4"].forEach(k=>r[k]=lk(b.B-(k==="B4"?.5:0))); r.C2=lk(b.C);
+    ["D1","D2","D3","D4"].forEach(k=>r[k]=lk(b.D-(k==="D3"?.3:0))); ["E1","E2","E3"].forEach(k=>r[k]=lk(b.E));
+    ["F1","F2","F3","F4"].forEach(k=>r[k]=lk(b.F-(k==="F1"&&dept==="PD"?.6:0))); ["H1","H2"].forEach(k=>r[k]=lk(b.H));
+    r.B5=pick(["en_job","5s","team","qc_sys","unsure"],dept==="EN"||dept==="CI"?[1,1,7,0,1]:[3,2,4,1,2]);
+    r.C1=pick(["EN","PD","QC","CI","all","unsure"],dept==="QC"?[4,2,0,1,3,1]:dept==="PD"?[5,1,0,1,4,1]:dept==="CI"?[1,1,0,1,7,0]:[1,2,0,1,6,1]);
+    r.D5=pick(["none","few","some","weekly"],dept==="EN"||dept==="CI"?[1,3,3,3]:[3,4,2,1]);
+    const g=new Set(); const gw=dept==="PD"?[6,3,3,3,4,2,2,2,1,2]:dept==="QC"?[2,2,4,5,4,1,4,2,1,1]:[3,2,4,4,2,4,2,2,1,2];
+    while(g.size<1+Math.floor(rnd()*3)) g.add(pick(ITEM.G1.opts.slice(0,10).map(o=>o.v),gw)); r.G1=[...g]; r.G1_other="";
+    const h=new Set(); while(h.size<1+Math.floor(rnd()*2)) h.add(pick(ITEM.H3.opts.map(o=>o.v),[4,4,3,3,2,2])); r.H3=[...h];
+    r.I1=rnd()<.45?cm[Math.floor(rnd()*cm.length)]:""; r.I2=rnd()<.3?cm[Math.floor(rnd()*cm.length)]:"";
+    out.push(normalize(r));
+  }
+  return out;
+}
+
+function allRows(){ return D.demo?(D.demoRows||(D.demoRows=demoRows())):D.rows; }
+function byLevel(rows){ return D.lvl==="all"?rows:rows.filter(r=>r.level===D.lvl); }
+function filtered(){ const r=byLevel(allRows()); return D.dept==="all"?r:r.filter(x=>x.dept===D.dept); }
+
+function statusHTML(){
+  if(D.demo) return `<span class="status"><span class="led off"></span>ข้อมูลตัวอย่าง</span>`;
+  const m={live:["","เชื่อมต่อระบบกลาง · อัปเดตสด"],loading:["off","กำลังโหลดข้อมูล…"],slow:["off","ยังเชื่อมต่อระบบกลางไม่ได้ ข้อมูลอาจไม่ล่าสุด"],error:["off","การเชื่อมต่อหลุด รีเฟรชหน้าเพื่อลองใหม่"],local:["off","ข้อมูลในเครื่องนี้ (โหมดออฟไลน์)"],sheets:["","Google Sheets"],needkey:["off","ต้องใส่รหัสผู้ดูแล"],badkey:["off","รหัสผู้ดูแลไม่ถูกต้อง"]}[D.status]||["off",""];
+  return `<span class="status"><span class="led ${m[0]}"></span>${m[1]}</span>`;
+}
+function renderDashboard(){
+  const app=$("#app"); app.className="inner wide";
+  if(!Store.isAdmin){
+    app.innerHTML=`<section class="card empty"><h2>หน้านี้สำหรับผู้ดูแลโครงการ</h2><p class="small">ผลสำรวจรายคนเปิดดูได้เฉพาะผู้ดูแลเท่านั้น</p><a class="btn primary" href="#survey">กลับไปที่แบบสำรวจ</a></section>`; return;
+  }
+  if(Store.mode==="remote" && !Store.adminKey && !D.demo){
+    app.innerHTML=`<section class="card panel" style="max-width:460px;margin:0 auto"><h2>เข้าสู่ Dashboard</h2><p class="sub" style="margin-bottom:12px">ใส่รหัสผู้ดูแล (ADMIN_KEY ที่ตั้งไว้ใน Google Apps Script)</p>
+      ${D.status==="badkey"?`<div class="notice bad" style="margin-bottom:10px">รหัสไม่ถูกต้อง ลองอีกครั้ง</div>`:""}
+      <form id="keyform" class="mg"><input class="input" id="adminkey" type="password" autocomplete="current-password" placeholder="รหัสผู้ดูแล"><div class="row"><button class="btn primary" type="submit">เข้าสู่ระบบ</button><button class="btn" type="button" data-act="demo-on">ดูตัวอย่าง Dashboard</button></div></form></section>`;
+    return;
+  }
+  const all=byLevel(allRows()), rows=filtered(), st=stats(rows);
+  const byDept=Object.fromEntries(DEPTS.map(d=>[d,stats(all.filter(r=>r.dept===d))]));
+  const allSt=stats(all);
+  const small = D.dept!=="all" && rows.length>0 && rows.length<5;
+  const head=`<div class="toolbar"><div><div class="eyebrow">Dashboard ผู้ดูแลโครงการ</div><h1>ผลสำรวจ TPM One Team</h1></div>
+    <div class="filters">
+      <div class="seg" role="group" aria-label="กรองแผนก">${["all",...DEPTS].map(d=>`<button data-dept="${d}" aria-pressed="${D.dept===d}">${d==="all"?"ทั้งหมด":d}</button>`).join("")}</div>
+      <select class="input" id="f-level" aria-label="กรองระดับงาน"><option value="all">ทุกระดับงาน</option>${ITEM.level.opts.map(o=>`<option value="${o.v}" ${D.lvl===o.v?"selected":""}>${esc(o.l)}</option>`).join("")}</select>
+      ${statusHTML()}
+    </div></div>`;
+  const demoBar = D.demo?`<div class="demo-bar"><span><b>กำลังแสดงข้อมูลตัวอย่าง 72 ชุด</b> สร้างขึ้นเพื่อดูหน้าตา Dashboard เท่านั้น ไม่ใช่ข้อมูลจริงและไม่ถูกบันทึก</span><button class="btn sm" data-act="demo-off">กลับไปดูข้อมูลจริง</button></div>`:"";
+  if(!allRows().length){
+    app.innerHTML=`<div class="dash">${head}<section class="card empty">
+      <h2>ยังไม่มีคำตอบ</h2>
+      <p class="small" style="max-width:56ch">เมื่อพนักงานส่งแบบสำรวจ ผลจะแสดงที่นี่${Store.mode==="cloud"?"ทันทีแบบอัปเดตสด":""} ระหว่างรอ คุณสามารถเปิดข้อมูลตัวอย่างเพื่อดูว่า Dashboard จะแสดงอะไรบ้าง หรือนำเข้าไฟล์ CSV ที่ส่งออกจากเครื่องอื่น</p>
+      <div class="mg row" style="justify-content:center"><button class="btn primary" data-act="demo-on">ดูตัวอย่างด้วยข้อมูลจำลอง</button><a class="btn" href="#survey">ไปที่แบบสำรวจ</a></div>
+      </section>${manageHTML()}${criteriaHTML()}</div>`;
+    return;
+  }
+  const idx=level(st.index);
+  const tiles=`<div class="tiles">
+    <div class="card tile"><span class="lbl">ผู้ตอบแบบสำรวจ${D.dept!=="all"?" · "+D.dept:""}</span><span class="big">${st.n}<small> คน</small></span>
+      <div class="split">${DEPTS.map(d=>`<span><i class="sw bg-${d}"></i>${d} <b class="num">${byDept[d].n}</b></span>`).join("")}</div></div>
+    <div class="card tile"><span class="lbl">One Team Index</span><span class="big">${f2(st.index)}<small> / 5</small></span><span><span class="pill ${idx.c}">${idx.t}</span></span></div>
+    <div class="card tile"><span class="lbl">เข้าใจความหมาย TPM ถูกต้อง (ข้อ B5)</span><span class="big">${pct(st.b5,st.n)}<small>%</small></span><span class="small">${st.b5} จาก ${st.n} คน</span></div>
+    <div class="card tile"><span class="lbl">มองว่าเครื่องจักรเป็นงานของทุกแผนกร่วมกัน (ข้อ C1)</span><span class="big">${pct(st.c1.all,st.n)}<small>%</small></span><span class="small">ที่เหลือมองว่าเป็นงานของแผนกใดแผนกหนึ่ง หรือไม่แน่ใจ</span></div>
+  </div>`;
+  const dims=`<section class="card panel"><div class="ph"><div><h2>คะแนน 6 มิติ${D.dept!=="all"?" · "+D.dept:" · ภาพรวม"}</h2><p class="sub">ค่าเฉลี่ย 1–5 · เส้นแบ่งที่ 3.00 และ 4.00 คือเกณฑ์ ต่ำ / ปานกลาง / สูง</p></div></div>
+    ${DIMS.map(d=>{const s=st.dims[d.k],l=level(s);return `<div class="dimrow"><div class="dn">${d.n}<small>ข้อ ${d.items.join(", ")}</small></div>
+      <div class="track" aria-hidden="true"><span class="fill" style="width:${s==null?0:(s-1)/4*100}%"></span><span class="t3" style="left:50%"></span><span class="t4" style="left:75%"></span></div>
+      <div class="sc">${f2(s)}</div><div><span class="pill ${l.c}">${l.t}</span></div></div>`}).join("")}</section>`;
+  const tick=v=>`${(v-1)/4*100}%`;
+  const compare=`<section class="card panel"><div class="ph"><div><h2>เปรียบเทียบ PD · QC · EN · CI</h2><p class="sub">แต่ละจุดคือคะแนนเฉลี่ยของแผนก แถบสีอ่อนคือช่วงห่าง ถ้าห่างกันตั้งแต่ 0.50 ถือว่ามุมมองต่างกันจริง ควรนำมาคุยร่วมกัน</p></div>
+    <div class="legend">${DEPTS.map(d=>`<span><i class="sw bg-${d}" style="border-radius:50%"></i>${d} <span class="small">(n=${byDept[d].n})</span></span>`).join("")}</div></div>
+    <div class="cmp" aria-hidden="true"><div></div><div class="axis">${[1,2,3,4,5].map(v=>`<span style="left:${tick(v)}">${v}</span>`).join("")}</div><div></div></div>
+    ${[...DIMS.map(d=>({n:d.n,get:s=>s.dims[d.k]})),{n:"One Team Index",get:s=>s.index}].map(row=>{
+      const vals=DEPTS.map(d=>({d,v:row.get(byDept[d])})).filter(x=>x.v!=null);
+      const lo=Math.min(...vals.map(x=>x.v)), hi=Math.max(...vals.map(x=>x.v)); const gap=vals.length>1?hi-lo:0;
+      return `<div class="cmp"><div class="dn" style="font-weight:${row.n==="One Team Index"?700:500};font-size:14px">${row.n}</div>
+      <div class="dots">${vals.length?`<span class="rail"></span><span class="band" style="left:${tick(lo)};width:calc(${tick(hi)} - ${tick(lo)})"></span>${vals.map(x=>`<span class="d bg-${x.d} ${D.dept!=="all"&&D.dept!==x.d?"dim":""}" style="left:${tick(x.v)}" title="${x.d} ${f2(x.v)}"></span>`).join("")}`:`<span class="rail"></span>`}</div>
+      <div class="vals">${DEPTS.map(d=>`<span>${d} ${f2(row.get(byDept[d]))}</span>`).join("")}${gap>=.5?`<span class="pill bad">ห่าง ${gap.toFixed(2)}</span>`:""}</div></div>`}).join("")}
+  </section>`;
+  // heatmap
+  const low3 = LIKERT_IDS.filter(id=>st.items[id]!=null).sort((a,b)=>st.items[a]-st.items[b]).slice(0,3);
+  const hc=v=>v==null?"h-na":v>=4?"h-good":v>=3?"h-warn":"h-bad";
+  const heat=`<section class="card panel"><div class="ph"><div><h2>รายข้อ: จุดแข็งและจุดที่ต้องแก้</h2><p class="sub">ค่าเฉลี่ยรายข้อแยกแผนก · สีเขียว ≥ 4.00 · สีเหลือง 3.00–3.99 · สีแดง &lt; 3.00 · <span style="color:var(--bad);font-weight:600">ต่ำสุด</span> = 3 ข้อคะแนนต่ำสุดของกลุ่มที่เลือก</p></div></div>
+    <div class="tablewrap"><table class="heat"><thead><tr><th>คำถาม</th><th>ทั้งหมด</th>${DEPTS.map(d=>`<th>${d}</th>`).join("")}</tr></thead><tbody>
+    ${DIMS.map(d=>`<tr class="grp"><td colspan="${DEPTS.length+2}">${d.n}</td></tr>`+d.items.map(id=>`<tr><td><span class="mono small">${id}</span> ${esc(ITEM[id].s)}${low3.includes(id)?'<span class="flag">ต่ำสุด</span>':""}</td>
+      <td class="v ${hc(allSt.items[id])}">${f2(allSt.items[id])}</td>${DEPTS.map(dp=>`<td class="v ${hc(byDept[dp].items[id])}">${f2(byDept[dp].items[id])}</td>`).join("")}</tr>`).join("")).join("")}
+    </tbody></table></div></section>`;
+  // barriers
+  const gEntries=ITEM.G1.opts.map(o=>({v:o.v,l:o.l,c:st.g1[o.v]})).sort((a,b)=>b.c-a.c);
+  const maxG=Math.max(1,...gEntries.map(x=>x.c));
+  const others=rows.filter(r=>r.G1_other).map(r=>r.G1_other);
+  const barriers=`<section class="card panel"><div class="ph"><div><h2>อุปสรรคหลักในการทำ TPM</h2><p class="sub">% ของผู้ตอบที่เลือกข้อนั้น (เลือกได้ไม่เกิน 3 ข้อ) · 3 อันดับแรกเน้นสี</p></div></div>
+    ${gEntries.map((x,i)=>`<div class="hbar ${i<3&&x.c>0?"hb-top":""}"><div class="hl"><span>${esc(x.l)}</span><span class="v">${pct(x.c,st.n)}% · ${x.c}</span></div><div class="ht"><i style="width:${x.c/maxG*100}%"></i></div>
+      ${D.dept==="all"?`<div class="hs">${DEPTS.map(d=>`${d} ${pct(byDept[d].g1[x.v],byDept[d].n)}%`).join(" · ")}</div>`:""}</div>`).join("")}
+    ${others.length?`<p class="small" style="margin-top:8px">อื่น ๆ ที่ระบุ: ${others.slice(0,8).map(esc).join(" · ")}</p>`:""}</section>`;
+  // ownership & frequency
+  const stackRow=(label,c,n,keys,cls)=>`<div class="stk-row"><span>${label}</span><div class="stack">${keys.map(k=>{const p=n?c[k]/n*100:0;return p?`<i class="${cls(k)}" style="width:${p}%" title="${k} ${Math.round(p)}%">${p>=12?Math.round(p)+"%":""}</i>`:""}).join("")}</div><span class="n">${n}</span></div>`;
+  const c1keys=["all","EN","PD","QC","CI","unsure"], d5keys=["none","few","some","weekly"], d5cls={none:"q1",few:"q2",some:"q3",weekly:"q4"};
+  const own=`<section class="card panel"><div class="ph"><div><h2>ใครควรดูแลเครื่องจักร (C1)</h2><p class="sub">สัดส่วนคำตอบของแต่ละแผนก ยิ่ง “ทุกแผนกร่วมกัน” มาก ยิ่งพร้อมเป็น One Team</p></div></div>
+    <div class="legend" style="margin-bottom:8px">${c1keys.map(k=>`<span><i class="sw c-${k}"></i>${esc(optLabel("C1",k))}</span>`).join("")}</div>
+    ${stackRow("ทั้งหมด",allSt.c1,allSt.n,c1keys,k=>"c-"+k)}${DEPTS.map(d=>stackRow(d,byDept[d].c1,byDept[d].n,c1keys,k=>"c-"+k)).join("")}
+    <h2 style="margin-top:20px">ความถี่ที่ทำงานร่วมกับแผนกอื่น (D5)</h2><p class="sub" style="margin-bottom:8px">เดือนที่ผ่านมา</p>
+    <div class="legend" style="margin-bottom:8px">${d5keys.map(k=>`<span><i class="sw ${d5cls[k]}"></i>${esc(optLabel("D5",k))}</span>`).join("")}</div>
+    ${stackRow("ทั้งหมด",allSt.d5,allSt.n,d5keys,k=>d5cls[k])}${DEPTS.map(d=>stackRow(d,byDept[d].d5,byDept[d].n,d5keys,k=>d5cls[k])).join("")}
+  </section>`;
+  const hEntries=ITEM.H3.opts.map(o=>({v:o.v,l:o.l,c:st.h3[o.v]})).sort((a,b)=>b.c-a.c); const maxH=Math.max(1,...hEntries.map(x=>x.c));
+  const pref=`<section class="card panel"><div class="ph"><div><h2>กิจกรรมที่อยากให้เริ่มก่อน (H3)</h2><p class="sub">% ของผู้ตอบ (เลือกได้ไม่เกิน 2 ข้อ)</p></div></div>
+    ${hEntries.map((x,i)=>`<div class="hbar ${i===0&&x.c?"hb-top":""}"><div class="hl"><span>${esc(x.l)}</span><span class="v">${pct(x.c,st.n)}% · ${x.c}</span></div><div class="ht"><i style="width:${x.c/maxH*100}%"></i></div></div>`).join("")}</section>`;
+  app.innerHTML=`<div class="dash">${head}${demoBar}
+    ${small?`<div class="notice warn">กลุ่มนี้มีผู้ตอบน้อยกว่า 5 คน ควรระวังการตีความ และซ่อนความคิดเห็นปลายเปิดไว้เพื่อป้องกันการระบุตัวตน</div>`:""}
+    ${rows.length?tiles+`<div class="grid2">${dims}${actionsHTML(st,rows,byDept)}</div>`+compare+heat+`<div class="grid2">${barriers}<div class="dash">${own}${pref}</div></div>`+commentsHTML(rows,small):`<section class="card empty"><h2>ไม่มีคำตอบในกลุ่มที่เลือก</h2><p class="small">ลองเปลี่ยนตัวกรองแผนกหรือระดับงาน</p></section>`}
+    ${manageHTML()}${criteriaHTML()}
+  </div>`;
+}
+function actionsHTML(st,rows,byDept){
+  const acts=[];
+  const dimSorted=DIMS.map(d=>({...d,s:st.dims[d.k]})).filter(d=>d.s!=null&&d.s<4).sort((a,b)=>a.s-b.s);
+  dimSorted.slice(0,2).forEach(d=>{ const a=DIM_ACT[d.k]; acts.push({p:d.s<3?1:2,t:a[0],why:`${d.n} ได้ ${f2(d.s)} (${level(d.s).t})`,how:a[1],who:a[2]}); });
+  const topG=ITEM.G1.opts.filter(o=>o.v!=="other").map(o=>({v:o.v,l:o.l,c:st.g1[o.v]})).sort((a,b)=>b.c-a.c).filter(x=>x.c>0).slice(0,3);
+  topG.forEach((g,i)=>{ const a=ACTIONS[g.v]; if(a) acts.push({p:i===0?1:2,t:a[0],why:`อุปสรรคอันดับ ${i+1}: ${g.l} (${pct(g.c,st.n)}% ของผู้ตอบ)`,how:a[1],who:a[2]}); });
+  const allPct=pct(st.c1.all,st.n);
+  if(allPct<60 && !acts.some(a=>a.t===ACTIONS.role[0])) acts.push({p:2,t:ACTIONS.role[0],why:`มีเพียง ${allPct}% ที่มองว่าเครื่องจักรเป็นงานของทุกแผนกร่วมกัน`,how:ACTIONS.role[1],who:ACTIONS.role[2]});
+  if(D.dept==="all"){
+    let best=null; DIMS.forEach(d=>{ const v=DEPTS.map(dp=>({dp,s:byDept[dp].dims[d.k]})).filter(x=>x.s!=null); if(v.length<2) return; v.sort((a,b)=>a.s-b.s); const g=v[v.length-1].s-v[0].s; if(g>=.5&&(!best||g>best.g)) best={d,g,lo:v[0],hi:v[v.length-1]}; });
+    if(best) acts.push({p:2,t:`เวทีคุยร่วม ${best.lo.dp} กับ ${best.hi.dp}`,why:`${best.d.n}: ${best.lo.dp} ${f2(best.lo.s)} ต่างจาก ${best.hi.dp} ${f2(best.hi.s)} (ห่าง ${best.g.toFixed(2)})`,how:"นำผลข้อนี้ไปคุยในวง 60 นาที ให้แต่ละฝ่ายเล่ามุมมองของตน แล้วตกลงสิ่งที่จะทำร่วมกัน 1–2 เรื่อง",who:"TPM Office เป็นผู้นำวง"});
+  }
+  const r=st.dims.readiness, e=st.dims.enablers;
+  if(r!=null&&e!=null&&r>=3.5&&e<3) acts.push({p:1,t:"คนพร้อมแต่ระบบยังไม่พร้อม",why:`ความพร้อมร่วมมือ ${f2(r)} แต่ทรัพยากร ${f2(e)}`,how:"คอขวดอยู่ที่เวลา เครื่องมือ และการสนับสนุน ผู้บริหารควรปลดล็อกก่อนเร่งกิจกรรม",who:"ผู้บริหารโรงงาน"});
+  const topH=ITEM.H3.opts.map(o=>({l:o.l,c:st.h3[o.v]})).sort((a,b)=>b.c-a.c)[0];
+  if(topH&&topH.c) acts.push({p:3,t:`เริ่มจาก “${topH.l}”`,why:`พนักงานเลือกมากที่สุด (${pct(topH.c,st.n)}%)`,how:"เริ่มจากสิ่งที่พนักงานอยากทำเอง ช่วยให้มีส่วนร่วมตั้งแต่ต้น",who:"ทีม One Team"});
+  const seen=new Set(); const list=acts.filter(a=>!seen.has(a.t)&&seen.add(a.t)).sort((a,b)=>a.p-b.p).slice(0,6);
+  const pl={1:["bad","เร่งด่วน"],2:["warn","ควรทำ"],3:["info","เสริม"]};
+  return `<section class="card panel"><div class="ph"><div><h2>กิจกรรมที่แนะนำ</h2><p class="sub">สร้างจากคะแนนต่ำสุด อุปสรรคอันดับต้น และช่องว่างระหว่างแผนก</p></div></div>
+    <div class="acts">${list.length?list.map(a=>`<div class="act p${a.p}"><div><span class="pill ${pl[a.p][0]}">${pl[a.p][1]}</span></div><div><h3>${esc(a.t)}</h3><p class="why">${esc(a.why)}</p><p class="how">${esc(a.how)}</p><p class="small">ผู้รับผิดชอบหลัก: ${esc(a.who)}</p></div></div>`).join(""):`<p class="small">ทุกมิติอยู่ในระดับสูง ให้รักษามาตรฐานและวัดซ้ำทุก 3–6 เดือน</p>`}</div></section>`;
+}
+function commentsHTML(rows,small){
+  if(small) return "";
+  const list=[]; rows.forEach(r=>{ [["I1","ปัญหา"],["I2","ข้อเสนอแนะ"]].forEach(([k,lb])=>{ const t=String(r[k]||"").trim(); if(t) list.push({t,k:lb,dept:r.dept,tags:tagComment(t)}); }); });
+  const counts={other:0}; THEMES.forEach(t=>counts[t.k]=0); list.forEach(c=>c.tags.forEach(t=>counts[t]++));
+  const shown=D.theme==="all"?list:list.filter(c=>c.tags.includes(D.theme));
+  const key=D.dept+"|"+D.lvl+"|"+(D.demo?"d":"r")+"|"+list.length;
+  const ai=D.ai[key];
+  return `<section class="card panel"><div class="ph"><div><h2>ความคิดเห็นจากคำถามปลายเปิด</h2><p class="sub">${list.length} ความคิดเห็น · จัดกลุ่มอัตโนมัติด้วยคำสำคัญ กดหัวข้อเพื่อกรอง</p></div>
+    ${list.length&&D.sampleOk!==false?`<button class="btn sm" data-act="ai" ${D.aiBusy?"disabled":""}>${D.aiBusy?"กำลังสรุป…":"สรุปประเด็นด้วย Claude"}</button>`:""}</div>
+    ${ai?`<div class="ai" id="ai-box">${esc(ai)}</div>`:D.aiBusy?`<div class="ai" id="ai-box">กำลังอ่านความคิดเห็น…</div>`:""}
+    ${list.length?`<div class="chips" role="group" aria-label="กรองหัวข้อ"><button class="chip" data-theme="all" aria-pressed="${D.theme==="all"}">ทั้งหมด<span class="c">${list.length}</span></button>${THEMES.filter(t=>counts[t.k]).sort((a,b)=>counts[b.k]-counts[a.k]).map(t=>`<button class="chip" data-theme="${t.k}" aria-pressed="${D.theme===t.k}">${t.n}<span class="c">${counts[t.k]}</span></button>`).join("")}${counts.other?`<button class="chip" data-theme="other" aria-pressed="${D.theme==="other"}">อื่น ๆ<span class="c">${counts.other}</span></button>`:""}</div>
+    <div class="comments">${shown.map(c=>`<div class="cm d-${esc(c.dept)}"><div class="meta"><b>${esc(c.dept)}</b><span>${c.k}</span></div>${esc(c.t)}</div>`).join("")||'<p class="small">ไม่มีความคิดเห็นในหัวข้อนี้</p>'}</div>`
+    :`<p class="small">ยังไม่มีความคิดเห็นในกลุ่มที่เลือก</p>`}</section>`;
+}
+function manageHTML(){
+  const backup = Store.mode==="cloud"?localRead():[];
+  return `<section class="card panel"><details class="manage" ${allRows().length?"":"open"}><summary>ส่งออก นำเข้า และจัดการข้อมูล</summary><div class="mg">
+    <div class="row"><button class="btn sm" data-act="csv" ${D.demo||!D.rows.length?"disabled":""}>ส่งออก CSV</button><button class="btn sm" data-act="xlsx" ${D.demo||!D.rows.length?"disabled":""}>ส่งออก Excel (.xlsx)</button>
+      <label class="btn sm" for="csvfile">นำเข้า CSV</label><input type="file" id="csvfile" accept=".csv,text/csv" hidden>
+      ${Store.mode==="remote"?`<button class="btn sm" data-act="reload">โหลดข้อมูลล่าสุด</button><button class="btn sm" data-act="logout">ออกจากระบบ</button>`:""}</div>
+    <p class="small">ส่งออกทั้งหมด ${D.rows.length} รายการ (ไม่ขึ้นกับตัวกรอง) · CSV ใช้รหัสคำตอบ เหมาะกับการนำเข้ากลับหรือวิเคราะห์ต่อ · Excel มี 3 แผ่น: คำตอบ, สรุปคะแนนตามแผนก, รหัสคำตอบ · นำเข้าไฟล์ CSV ที่ส่งออกจากแบบสำรวจนี้ในเครื่องอื่นเพื่อรวมผล (รายการซ้ำจะไม่ถูกเพิ่มซ้ำ)</p>
+    ${backup.length?`<div class="notice warn">มีคำตอบ ${backup.length} รายการที่เก็บสำรองไว้ในเครื่องนี้ (ส่งเข้าระบบกลางไม่สำเร็จ) <button class="btn sm" data-act="upload-backup" style="margin-left:8px">อัปโหลดเข้าระบบกลาง</button></div>`:""}
+    <div class="row" id="del-row">${D.confirmDel?`<span class="small">พิมพ์ <b>ลบ</b> เพื่อยืนยันการลบคำตอบทั้งหมด ${D.rows.length} รายการ (กู้คืนไม่ได้)</span><input class="input" id="del-confirm" style="width:110px"><button class="btn sm danger" data-act="del-go">ลบทั้งหมด</button><button class="btn sm" data-act="del-cancel">ยกเลิก</button>`
+      :`<button class="btn sm danger" data-act="del-ask" ${D.demo||!D.rows.length?"disabled":""}>ลบคำตอบทั้งหมด</button><span class="small">ใช้ล้างข้อมูลทดสอบก่อนเริ่มเก็บจริง แนะนำให้ส่งออก CSV เก็บไว้ก่อน</span>`}</div>
+    <p class="small" id="mg-msg" aria-live="polite"></p></div></details></section>`;
+}
+function criteriaHTML(){
+  return `<section class="card panel"><details class="manage"><summary>เกณฑ์การแปลผลและแนวทางนำผลไปใช้</summary><div class="mg">
+    <div class="tablewrap"><table class="crit"><thead><tr><th>ระดับ</th><th>คะแนนเฉลี่ย</th><th>ความหมาย</th></tr></thead><tbody>
+      <tr><td><span class="pill good">สูง</span></td><td class="num">4.00–5.00</td><td>จุดแข็ง รักษาไว้และใช้เป็นต้นแบบให้กลุ่มอื่น</td></tr>
+      <tr><td><span class="pill warn">ปานกลาง</span></td><td class="num">3.00–3.99</td><td>ยังไม่มั่นคง ควรพัฒนาในแผนระยะ 3 เดือน</td></tr>
+      <tr><td><span class="pill bad">ต่ำ</span></td><td class="num">1.00–2.99</td><td>ปัญหาที่ต้องเร่งแก้ก่อนขยายกิจกรรม TPM</td></tr></tbody></table></div>
+    <p class="small">คะแนนรายคนในแต่ละมิติ = ค่าเฉลี่ยข้อในมิตินั้น · คะแนนกลุ่ม = ค่าเฉลี่ยของรายคน · One Team Index = ค่าเฉลี่ยของ 6 มิติ · ข้อ B5 และ C1 รายงานเป็น % · ส่วนต่างระหว่างแผนก ≥ 0.50 ถือว่าต่างกันจริง · กลุ่มที่มีผู้ตอบน้อยกว่า 5 คนไม่แสดงความคิดเห็นปลายเปิด</p>
+    <div class="road">
+      <div><span class="w">สัปดาห์ 1–2</span><b>แชร์ผลกับทุกแผนก</b>นำเสนอผลภาพรวมอย่างโปร่งใส ไม่ชี้ตัวบุคคล ให้ทุกแผนกเห็นภาพเดียวกัน</div>
+      <div><span class="w">สัปดาห์ 3–4</span><b>เลือกเครื่องต้นแบบ</b>ตั้งทีม One Team PD-QC-EN-CI ประจำเครื่องที่ Breakdown สูง ทำ RACI ให้ชัด</div>
+      <div><span class="w">เดือน 2–3</span><b>ลงมือตามจุดอ่อน</b>ทำกิจกรรมที่แนะนำจากมิติที่ต่ำที่สุดและอุปสรรคอันดับต้น พร้อมติด OEE / Breakdown / Defect</div>
+      <div><span class="w">เดือน 4–6</span><b>วัดซ้ำและขยายผล</b>ทำแบบสำรวจนี้ซ้ำ เทียบคะแนนก่อน-หลัง แล้วขยายไปเครื่องอื่น</div>
+    </div></div></details></section>`;
+}
+
+/* ================== EXPORT / IMPORT ================== */
+const COLS_ORDER=["id","submittedAt","mode","dept","level","tenure","B1","B2","B3","B4","B5","C1","C2","D1","D2","D3","D4","D5","E1","E2","E3","F1","F2","F3","F4","G1","G1_other","H1","H2","H3","I1","I2"];
+const SCORE_COLS=[...DIMS.map(d=>"S_"+d.k),"S_index"];
+function csvCell(v){ const s=v==null?"":String(v); return /[",\n\r]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }
+function buildCSV(rows){
+  const head=[...COLS_ORDER,"B5_correct",...SCORE_COLS];
+  const lines=[head.join(",")];
+  rows.forEach(r=>{ const sc=respScores(r); lines.push([...COLS_ORDER.map(c=>Array.isArray(r[c])?r[c].join("|"):r[c]),r.B5===B5_CORRECT?1:0,...DIMS.map(d=>sc[d.k]==null?"":sc[d.k].toFixed(2)),sc.index==null?"":sc.index.toFixed(2)].map(csvCell).join(",")); });
+  return "﻿"+lines.join("\r\n");
+}
+function parseCSV(text){
+  text=text.replace(/^﻿/,""); const rows=[]; let row=[],cell="",q=false;
+  for(let i=0;i<text.length;i++){ const c=text[i];
+    if(q){ if(c==='"'){ if(text[i+1]==='"'){cell+='"';i++;} else q=false; } else cell+=c; }
+    else if(c==='"') q=true; else if(c===","){row.push(cell);cell="";} else if(c==="\n"||c==="\r"){ if(c==="\r"&&text[i+1]==="\n") i++; row.push(cell); rows.push(row); row=[]; cell=""; } else cell+=c; }
+  if(cell||row.length){ row.push(cell); rows.push(row); }
+  const head=rows.shift()||[]; return rows.filter(r=>r.some(x=>x.trim())).map(r=>Object.fromEntries(head.map((h,i)=>[h.trim(),r[i]??""])));
+}
+async function saveFile(filename,data,csvText){
+  let dl=null; try{ dl=Store.inViewer?await claude.use("downloads"):null; }catch(e){}
+  if(dl){ try{ await dl.save({filename,data}); toast("ส่งออก "+filename+" แล้ว"); }catch(e){ toast(e&&e.code==="declined"?"ยกเลิกการบันทึกไฟล์":"ส่งออกไม่สำเร็จ ลองอีกครั้ง"); } return; }
+  if(Store.inViewer){ showCopyModal(csvText||""); return; }
+  const url=URL.createObjectURL(data instanceof Blob?data:new Blob([data])); const a=document.createElement("a"); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),5000); toast("ส่งออก "+filename+" แล้ว");
+}
+function showCopyModal(text){
+  $("#overlay").innerHTML=`<div class="modal-bg" data-act="close-modal"><div class="card modal" role="dialog" aria-label="คัดลอกข้อมูล CSV"><h2 style="font-size:18px">คัดลอกข้อมูล CSV</h2><p class="small">หน้านี้ดาวน์โหลดไฟล์โดยตรงไม่ได้ ให้คัดลอกข้อความด้านล่างไปวางใน Notepad แล้วบันทึกเป็นไฟล์ .csv หรือวางใน Excel / Google Sheets</p><textarea id="copy-area" readonly>${esc(text)}</textarea><div class="row" style="display:flex;gap:10px"><button class="btn primary sm" data-act="copy">คัดลอก</button><button class="btn sm" data-act="close-modal">ปิด</button></div></div></div>`;
+}
+function loadXLSX(){ return window.XLSX?Promise.resolve():new Promise((res,rej)=>{ const s=document.createElement("script"); s.src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+async function exportXLSX(){
+  try{ await loadXLSX(); }catch(e){ toast("โหลดตัวสร้างไฟล์ Excel ไม่ได้ ใช้ CSV แทน"); return; }
+  const rows=D.rows;
+  const lab=(q,v)=>Array.isArray(v)?v.map(x=>q==="G1"&&x==="other"?"อื่น ๆ":optLabel(q,x)).join(" | "):(ITEM[q]&&ITEM[q].opts?optLabel(q,v):v);
+  const head=["รหัสคำตอบ","วันที่ส่ง","แผนก","ระดับงาน","อายุงาน",...COLS_ORDER.slice(6).map(c=>c==="G1_other"?"G1 อื่น ๆ (ระบุ)":c+" "+(ITEM[c]?ITEM[c].t:"")),"B5 ตอบถูก",...DIMS.map(d=>"คะแนน "+d.n),"One Team Index"];
+  const data=[head,...rows.map(r=>{ const sc=respScores(r); return [r.id,r.submittedAt?new Date(r.submittedAt).toLocaleString("th-TH"):"",r.dept,lab("level",r.level),lab("tenure",r.tenure),...COLS_ORDER.slice(6).map(c=>c==="G1_other"?r.G1_other:ITEM[c].type==="likert"?r[c]:lab(c,r[c])),r.B5===B5_CORRECT?"ถูก":"ไม่ถูก",...DIMS.map(d=>sc[d.k]==null?"":+sc[d.k].toFixed(2)),sc.index==null?"":+sc.index.toFixed(2)]; })];
+  const groups=[["ทั้งหมด",rows],...DEPTS.map(d=>[d,rows.filter(r=>r.dept===d)])].map(([n,rs])=>[n,stats(rs)]);
+  const sum=[["ตัวชี้วัด",...groups.map(g=>g[0])],["จำนวนผู้ตอบ",...groups.map(g=>g[1].n)],...DIMS.map(d=>[d.n,...groups.map(g=>g[1].dims[d.k]==null?"":+g[1].dims[d.k].toFixed(2))]),["One Team Index",...groups.map(g=>g[1].index==null?"":+g[1].index.toFixed(2))],["% เข้าใจ TPM ถูกต้อง (B5)",...groups.map(g=>pct(g[1].b5,g[1].n))],["% มองว่าเป็นงานของทุกแผนก (C1)",...groups.map(g=>pct(g[1].c1.all,g[1].n))],[],["รายข้อ"],...LIKERT_IDS.map(id=>[id+" "+ITEM[id].s,...groups.map(g=>g[1].items[id]==null?"":+g[1].items[id].toFixed(2))]),[],["อุปสรรค (% ผู้ตอบ)"],...ITEM.G1.opts.map(o=>[o.l,...groups.map(g=>pct(g[1].g1[o.v],g[1].n))])];
+  const code=[["คำถาม","รหัส","ความหมาย"],...ITEMS.filter(i=>i.opts&&i.type!=="dept").flatMap(i=>i.opts.map(o=>[i.id+" "+i.t,o.v,o.l])),["มาตราส่วน 1–5","1–5",LK.map((l,i)=>(i+1)+"="+l).join(", ")]];
+  const wb=XLSX.utils.book_new();
+  const ws1=XLSX.utils.aoa_to_sheet(data); ws1["!cols"]=head.map((h,i)=>({wch:i<5?14:Math.min(40,Math.max(10,String(h).length*0.8))}));
+  XLSX.utils.book_append_sheet(wb,ws1,"คำตอบ");
+  const ws2=XLSX.utils.aoa_to_sheet(sum); ws2["!cols"]=[{wch:40},{wch:10},{wch:10},{wch:10},{wch:10}]; XLSX.utils.book_append_sheet(wb,ws2,"สรุปคะแนนตามแผนก");
+  const ws3=XLSX.utils.aoa_to_sheet(code); ws3["!cols"]=[{wch:60},{wch:12},{wch:44}]; XLSX.utils.book_append_sheet(wb,ws3,"รหัสคำตอบ");
+  const buf=XLSX.write(wb,{type:"array",bookType:"xlsx"});
+  await saveFile(`TPM-One-Team-${new Date().toISOString().slice(0,10)}.xlsx`,new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),buildCSV(rows));
+}
+async function importFile(file){
+  const msg=$("#mg-msg"); const text=await file.text(); let rows=parseCSV(text);
+  rows=rows.filter(r=>r.dept&&DEPTS.includes(String(r.dept).toUpperCase())).map(r=>{ const o={}; COLS_ORDER.forEach(c=>o[c]=r[c]); return normalize(o); });
+  if(!rows.length){ msg.textContent="ไม่พบข้อมูลที่นำเข้าได้ ไฟล์ต้องเป็น CSV ที่ส่งออกจากแบบสำรวจนี้"; return; }
+  const exist=new Set(D.rows.map(r=>r.id)); const fresh=rows.filter(r=>!r.id||!exist.has(r.id));
+  msg.textContent=`กำลังนำเข้า ${fresh.length} รายการ…`;
+  try{ const n=await Store.importRows(fresh,(a,b)=>{msg.textContent=`กำลังนำเข้า ${a} / ${b}`;}); msg.textContent=`นำเข้าแล้ว ${n} รายการ${rows.length-fresh.length?` (ข้าม ${rows.length-fresh.length} รายการที่มีอยู่แล้ว)`:""}`; toast("นำเข้า "+n+" รายการ"); refreshData(); }
+  catch(e){ msg.textContent=e&&e.code==="quota_exceeded"?"พื้นที่ฐานข้อมูลเต็ม ลบข้อมูลเก่าบางส่วนก่อนนำเข้า":"นำเข้าไม่สำเร็จ ลองอีกครั้ง"; }
+}
+function refreshData(){ if(Store.mode==="local") { D.rows=localRead().map(normalize); render(); } else if(Store.mode==="remote") Store.refreshRemote(onData,onStatus); }
+
+async function aiSummary(){
+  let sample=null; try{ sample=Store.inViewer?await claude.use("sample"):null; }catch(e){}
+  if(!sample){ D.sampleOk=false; toast("การสรุปด้วย Claude ใช้ได้เฉพาะเมื่อเปิดใน claude.ai"); render(); return; }
+  const rows=filtered(); const list=[]; rows.forEach(r=>["I1","I2"].forEach(k=>{ const t=String(r[k]||"").trim(); if(t) list.push(`[${r.dept}][${k==="I1"?"ปัญหา":"ข้อเสนอแนะ"}] ${t}`); }));
+  const key=D.dept+"|"+D.lvl+"|"+(D.demo?"d":"r")+"|"+list.length;
+  D.aiBusy=true; render();
+  const prompt=`คุณเป็นที่ปรึกษา TPM ในโรงงานอุตสาหกรรม ด้านล่างคือความคิดเห็นปลายเปิดจากแบบสำรวจ "TPM One Team" ของพนักงานแผนก PD (ผลิต), QC (ควบคุมคุณภาพ), EN (วิศวกรรม), CI (พัฒนาปรับปรุงต่อเนื่อง) แต่ละบรรทัดขึ้นต้นด้วย [แผนก][ประเภท]
+
+สรุปเป็นภาษาไทย ข้อความธรรมดา ไม่ใช้ markdown ไม่ใส่ * หรือ # ใช้รูปแบบนี้:
+ประเด็นหลัก
+• (ประเด็น) — พบประมาณ X ความคิดเห็น, แผนกที่พูดถึงมาก
+(3–5 ประเด็น เรียงจากพบมากไปน้อย)
+
+ความแตกต่างระหว่างแผนก
+• (1–2 บรรทัด)
+
+ข้อเสนอที่ทำได้ทันที
+• (3 ข้อ สั้น ชัด ระบุว่าใครควรทำ)
+
+ห้ามยกข้อความที่อาจระบุตัวบุคคล ห้ามแต่งข้อมูลที่ไม่มีในความคิดเห็น
+
+ความคิดเห็น (${list.length} รายการ):
+${list.slice(0,300).join("\n")}`;
+  try{
+    const res=await sample(prompt,{modelTier:"default",onText:({text})=>{ D.ai[key]=text; const b=$("#ai-box"); if(b) b.textContent=text; }});
+    D.ai[key]=res.text;
+  }catch(e){ if(e&&e.code==="not_granted") D.sampleOk=false; toast(e&&e.code==="rate_limited"?"เรียกใช้บ่อยเกินไป รอสักครู่แล้วลองใหม่":"สรุปไม่สำเร็จ"); }
+  D.aiBusy=false; render();
+}
+
+/* ================== ROUTING & EVENTS ================== */
+function onData(rows){ D.rows=rows.sort((a,b)=>String(a.submittedAt).localeCompare(String(b.submittedAt))); if(route()==="dashboard") render(); }
+function onStatus(s,code){ D.status=s; D.statusCode=code||""; if(route()==="dashboard") render(); }
+function route(){ return location.hash.replace("#","")==="dashboard"?"dashboard":"survey"; }
+let watching=false;
+function render(){
+  const r=route();
+  $("#tab-dash").hidden=!Store.isAdmin;
+  $("#tab-survey").setAttribute("aria-current",r==="survey"?"page":"false");
+  $("#tab-dash").setAttribute("aria-current",r==="dashboard"?"page":"false");
+  if(r==="dashboard"){
+    if(Store.isAdmin&&!watching&&Store.mode!=="pending"){ watching=true; Store.watch(onData,onStatus); }
+    const y=window.scrollY; renderDashboard(); window.scrollTo(0,y);
+  } else renderSurvey();
+}
+window.addEventListener("hashchange",()=>{ render(); window.scrollTo(0,0); });
+
+document.addEventListener("click",async e=>{
+  const t=e.target.closest("button,[data-act]"); if(!t) return;
+  if(t.matches(".lk,.opt:not(.multi),.dept")&&t.dataset.q){ const q=t.dataset.q, v=ITEM[q].type==="likert"?Number(t.dataset.v):t.dataset.v; S.ans[q]=v; S.missing.delete(q); refreshQ(q); const nb=document.querySelector(`#q-${q} [data-v="${t.dataset.v}"]`); nb&&nb.focus(); return; }
+  if(t.dataset.m){ const q=t.dataset.m, it=ITEM[q]; let sel=arr(S.ans[q]); const v=t.dataset.v; sel=sel.includes(v)?sel.filter(x=>x!==v):(sel.length<it.max?[...sel,v]:sel); S.ans[q]=sel; if(answered(it)) S.missing.delete(q); refreshQ(q); const nb=document.querySelector(`#q-${q} [data-v="${v}"]`); nb&&nb.focus(); if(v==="other"&&sel.includes("other")){ const inp=document.getElementById("f-"+q+"_other"); inp&&inp.focus(); } return; }
+  if(t.dataset.dept){ D.dept=t.dataset.dept; D.theme="all"; render(); return; }
+  if(t.dataset.theme){ D.theme=t.dataset.theme; render(); return; }
+  const act=t.dataset.act; if(!act) return;
+  if(act==="close-modal"&&e.target!==t&&!e.target.matches("button")) return;
+  switch(act){
+    case "start": S.missing.clear(); goStep(1); break;
+    case "next": { const sec=SECTIONS[S.step-1]; const miss=validateSection(sec); if(miss.length){ renderSurvey(); const el=document.getElementById("q-"+miss[0]); el&&el.scrollIntoView({block:"center",behavior:"smooth"}); $("#foot-msg").textContent=`ยังไม่ได้ตอบ ${miss.length} ข้อ`; } else goStep(S.step+1); break; }
+    case "back": goStep(S.step-1); break;
+    case "submit": if(!S.busy) submitSurvey(); break;
+    case "restart": S.result=null; goStep(0); break;
+    case "demo-on": D.demo=true; D.theme="all"; location.hash="dashboard"; render(); break;
+    case "demo-off": D.demo=false; D.theme="all"; render(); break;
+    case "csv": await saveFile(`TPM-One-Team-${new Date().toISOString().slice(0,10)}.csv`,new Blob([buildCSV(D.rows)],{type:"text/csv"}),buildCSV(D.rows)); break;
+    case "xlsx": await exportXLSX(); break;
+    case "ai": if(!D.aiBusy) aiSummary(); break;
+    case "reload": refreshData(); break;
+    case "logout": Store.adminKey=null; try{sessionStorage.removeItem("tpm-admin-key");}catch(_){} D.rows=[]; D.status="needkey"; render(); break;
+    case "del-ask": D.confirmDel=true; render(); break;
+    case "del-cancel": D.confirmDel=false; render(); break;
+    case "del-go": { const v=($("#del-confirm")||{}).value; if((v||"").trim()!=="ลบ"){ $("#mg-msg").textContent="พิมพ์คำว่า ลบ ให้ถูกต้องก่อนกดยืนยัน"; return; } const m=$("#mg-msg"); m.textContent="กำลังลบ…"; await Store.deleteAll(D.rows,(a,b)=>{ const x=$("#mg-msg"); if(x) x.textContent=`กำลังลบ ${a} / ${b}`; }); D.confirmDel=false; toast("ลบคำตอบทั้งหมดแล้ว"); refreshData(); render(); break; }
+    case "upload-backup": { const b=localRead(); const m=$("#mg-msg"); m.textContent="กำลังอัปโหลด…"; try{ const n=await Store.importRows(b.map(normalize)); localWrite([]); toast("อัปโหลด "+n+" รายการแล้ว"); }catch(_){ m.textContent="อัปโหลดไม่สำเร็จ"; } render(); break; }
+    case "copy": { const ta=$("#copy-area"); try{ await navigator.clipboard.writeText(ta.value); toast("คัดลอกแล้ว"); }catch(_){ ta.focus(); ta.select(); toast("เลือกข้อความแล้ว กด Ctrl+C เพื่อคัดลอก"); } break; }
+    case "close-modal": $("#overlay").innerHTML=""; break;
+  }
+});
+document.addEventListener("input",e=>{ const k=e.target.dataset&&e.target.dataset.text; if(k){ S.ans[k]=e.target.value; const base=k.replace("_other",""); if(ITEM[base]&&answered(ITEM[base])&&S.missing.has(base)){ S.missing.delete(base); document.getElementById("q-"+base).classList.remove("missing"); } } });
+document.addEventListener("change",e=>{ if(e.target.id==="f-level"){ D.lvl=e.target.value; render(); } if(e.target.id==="csvfile"&&e.target.files[0]){ importFile(e.target.files[0]); e.target.value=""; } });
+document.addEventListener("submit",e=>{ if(e.target.id==="keyform"){ e.preventDefault(); const k=$("#adminkey").value.trim(); if(!k) return; Store.adminKey=k; try{sessionStorage.setItem("tpm-admin-key",k);}catch(_){} watching=false; D.status="loading"; render(); } });
+
+(async function boot(){
+  render();
+  await Store.init();
+  render();
+})();
+</script>
